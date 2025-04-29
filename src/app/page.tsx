@@ -68,18 +68,18 @@ export default function Home() {
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
           <Button asChild size="lg" className="shadow-md hover:shadow-lg transition-shadow" >
-            <Link href="/b12-benefits" legacyBehavior passHref>
-               <a>Learn About B12</a>
+            <Link href="/b12-benefits">
+               Learn About B12
             </Link>
           </Button>
           <Button asChild size="lg" variant="secondary" className="shadow-md hover:shadow-lg transition-shadow">
-             <Link href="/b12-deficiency-symptoms" legacyBehavior passHref>
-               <a>Check Symptoms</a>
+             <Link href="/b12-deficiency-symptoms">
+               Check Symptoms
              </Link>
           </Button>
           <Button asChild size="lg" variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
-             <Link href="#" legacyBehavior passHref>
-                <a>Join Community</a>
+             <Link href="#">
+                Join Community
              </Link> {/* Update href when community page is ready */}
           </Button>
         </div>
@@ -119,8 +119,8 @@ export default function Home() {
               </CardContent>
                <CardContent>
                  <Button asChild variant="link" className="text-primary">
-                   <Link href={feature.href} legacyBehavior passHref>
-                      <a>Learn More</a>
+                   <Link href={feature.href}>
+                      Learn More
                    </Link>
                  </Button>
                </CardContent>
@@ -152,8 +152,8 @@ export default function Home() {
                        </CardContent>
                         <CardContent>
                            <Button asChild variant="secondary" size="sm" className="w-full">
-                              <Link href="#" legacyBehavior passHref>
-                                <a>Read Full Story</a>
+                              <Link href="#">
+                                Read Full Story
                               </Link> {/* Update href later */}
                            </Button>
                        </CardContent>
@@ -167,8 +167,8 @@ export default function Home() {
            </Carousel>
             <div className="text-center mt-8">
                  <Button asChild variant="outline">
-                    <Link href="#" legacyBehavior passHref>
-                        <a>View All Stories</a>
+                    <Link href="#">
+                        View All Stories
                     </Link> {/* Update href later */}
                  </Button>
                </div>
