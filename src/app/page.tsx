@@ -67,20 +67,14 @@ export default function Home() {
           From Symptoms to Solutions — Discover, Learn, and Share.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-          <Button asChild size="lg" className="shadow-md hover:shadow-lg transition-shadow" >
-            <Link href="/b12-benefits">
-               Learn About B12
-            </Link>
+          <Button asChild size="lg" className="shadow-md hover:shadow-lg transition-shadow">
+            <Link href="/b12-benefits">Learn About B12</Link>
           </Button>
           <Button asChild size="lg" variant="secondary" className="shadow-md hover:shadow-lg transition-shadow">
-             <Link href="/b12-deficiency-symptoms">
-               Check Symptoms
-             </Link>
+             <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
           </Button>
           <Button asChild size="lg" variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
-             <Link href="#">
-                Join Community
-             </Link> {/* Update href when community page is ready */}
+             <Link href="#">Join Community</Link> {/* Update href when community page is ready */}
           </Button>
         </div>
       </section>
@@ -119,9 +113,7 @@ export default function Home() {
               </CardContent>
                <CardContent>
                  <Button asChild variant="link" className="text-primary">
-                   <Link href={feature.href}>
-                      Learn More
-                   </Link>
+                   <Link href={feature.href}>Learn More</Link>
                  </Button>
                </CardContent>
             </Card>
@@ -152,9 +144,7 @@ export default function Home() {
                        </CardContent>
                         <CardContent>
                            <Button asChild variant="secondary" size="sm" className="w-full">
-                              <Link href="#">
-                                Read Full Story
-                              </Link> {/* Update href later */}
+                              <Link href="#">Read Full Story</Link> {/* Update href later */}
                            </Button>
                        </CardContent>
                      </Card>
@@ -167,9 +157,7 @@ export default function Home() {
            </Carousel>
             <div className="text-center mt-8">
                  <Button asChild variant="outline">
-                    <Link href="#">
-                        View All Stories
-                    </Link> {/* Update href later */}
+                    <Link href="#">View All Stories</Link> {/* Update href later */}
                  </Button>
                </div>
          </div>
