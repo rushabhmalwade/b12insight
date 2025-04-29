@@ -1,26 +1,41 @@
 'use client';
 
-import * as React from 'react'; // Import React
+import * as React from 'react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react'; // Keep useState import for direct usage
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Sun, Moon } from 'lucide-react';
-// import { useTheme } from 'next-themes'; // Assuming next-themes is installed for theme toggle
 
-// Placeholder for theme toggle functionality
+// Placeholder for theme toggle functionality - Improved for hydration safety
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState('light'); // Use useState directly
-    const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+    const [theme, setTheme] = useState('light');
+    const [mounted, setMounted] = useState(false);
 
-    // Add 'dark' class to html element if theme is dark
-    // In a real app using next-themes, this is handled automatically
-    useEffect(() => { // Use React.useEffect
+    // Effect to set the theme class on mount and theme change
+    useEffect(() => {
       const root = window.document.documentElement;
+      // Set initial theme from localStorage or system preference if needed
+      // For simplicity, we start with 'light' and allow toggle
       root.classList.remove(theme === 'light' ? 'dark' : 'light');
       root.classList.add(theme);
     }, [theme]);
 
+    // Effect to ensure component is mounted before rendering theme-specific UI
+    useEffect(() => {
+      setMounted(true);
+      // Optionally read initial theme from localStorage here
+      // const storedTheme = localStorage.getItem('theme') || 'light';
+      // setTheme(storedTheme);
+    }, []);
+
+    const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+
+    // Render a placeholder or null initially, then the actual button content
+    if (!mounted) {
+        // Render a placeholder button to prevent layout shift
+        return <Button variant="ghost" size="icon" disabled aria-label="Toggle theme" className="h-9 w-9" />;
+    }
 
     return (
         <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
@@ -47,7 +62,7 @@ export function Header() {
         {/* Logo/Title */}
         <Link href="/" className="flex items-center gap-2 mr-6">
            {/* Simple SVG Placeholder for B12 molecule/icon */}
-           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-atom"><circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M3.8 20.2c-2.04-2.03-.02-7.36 4.5-11.9 4.54-4.52 9.87-6.54 11.9-4.5 2.04 2.03.02 7.36-4.5 11.9-4.54 4.52-9.87 6.54 11.9 4.5Z"/></svg>
+           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-atom"><circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M3.8 20.2c-2.04-2.03-.02-7.36 4.5-11.9 4.54-4.52 9.87-6.54 11.9-4.5 2.04 2.03.02 7.36-4.5 11.9-4.54 4.52-9.87 6.54 11.9 4.5Z"/></svg>
           <span className="font-bold text-xl text-primary">B12 Insight</span>
         </Link>
 
