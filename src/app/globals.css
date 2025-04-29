@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 body {
-  font-family: var(--font-poppins), sans-serif; /* Use Poppins font */
+  font-family: var(--font-manrope), sans-serif; /* Use Manrope font */
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* White */
+    --background: 210 20% 98%; /* Off-white */
     --foreground: 220 10% 20%; /* Dark Grey */
     --card: 0 0% 100%; /* White */
     --card-foreground: 220 10% 20%; /* Dark Grey */
@@ -16,10 +16,10 @@ body {
     --popover-foreground: 220 10% 20%; /* Dark Grey */
     --primary: 0 71% 75%; /* Muted Coral */
     --primary-foreground: 0 0% 100%; /* White */
-    --secondary: 210 100% 95%; /* Light Blue */
-    --secondary-foreground: 210 30% 40%; /* Muted Blue */
-    --muted: 60 100% 95%; /* Soft Yellow */
-    --muted-foreground: 60 30% 50%; /* Muted Yellow */
+    --secondary: 40 30% 96%; /* Light Beige */
+    --secondary-foreground: 40 10% 30%; /* Muted Beige/Brown */
+    --muted: 210 20% 94%; /* Soft Gray */
+    --muted-foreground: 210 10% 50%; /* Muted Gray */
     --accent: 140 70% 95%; /* Soft Green */
     --accent-foreground: 140 30% 40%; /* Muted Green */
     --destructive: 0 84.2% 60.2%; /* Standard Red */
@@ -43,18 +43,18 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 220 15% 15%; /* Dark Blue-Grey */
+    --background: 220 15% 10%; /* Darker Blue-Grey */
     --foreground: 220 10% 90%; /* Light Grey */
-    --card: 220 15% 20%; /* Slightly Darker Blue-Grey */
+    --card: 220 15% 15%; /* Slightly Darker Blue-Grey */
     --card-foreground: 220 10% 90%; /* Light Grey */
-    --popover: 220 15% 20%; /* Slightly Darker Blue-Grey */
+    --popover: 220 15% 15%; /* Slightly Darker Blue-Grey */
     --popover-foreground: 220 10% 90%; /* Light Grey */
     --primary: 0 71% 75%; /* Muted Coral */
     --primary-foreground: 0 0% 100%; /* White */
-    --secondary: 210 30% 30%; /* Dark Muted Blue */
-    --secondary-foreground: 210 100% 90%; /* Light Blue */
-    --muted: 60 30% 25%; /* Dark Muted Yellow */
-    --muted-foreground: 60 50% 70%; /* Lighter Muted Yellow */
+    --secondary: 40 10% 20%; /* Dark Beige/Brown */
+    --secondary-foreground: 40 30% 80%; /* Lighter Beige */
+    --muted: 210 10% 25%; /* Dark Gray */
+    --muted-foreground: 210 10% 70%; /* Lighter Gray */
     --accent: 140 30% 35%; /* Dark Muted Green */
     --accent-foreground: 140 60% 80%; /* Lighter Muted Green */
     --destructive: 0 62.8% 30.6%; /* Darker Red */
@@ -84,7 +84,13 @@ body {
   }
   body {
     @apply bg-background text-foreground;
-    /* Add subtle background gradient */
-    /* background-image: linear-gradient(to bottom right, hsl(var(--background)), hsl(var(--secondary) / 0.1)); */
+    /* Smooth background transition */
+     background-image: linear-gradient(to bottom, hsl(var(--background)), hsl(var(--secondary)), hsl(var(--muted)));
+     background-attachment: fixed; /* Keep gradient fixed during scroll */
   }
+
+   /* Apply subtle fade-in to root elements for smoother page load */
+   section, footer, header, main > div {
+       @apply animate-fade-in;
+     }
 }

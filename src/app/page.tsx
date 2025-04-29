@@ -1,120 +1,191 @@
 'use client';
 
-import { B12InfoDisplay } from '@/components/b12-info-display';
-import { B12SourcesDisplay } from '@/components/b12-sources-display';
-import { SymptomChecker } from '@/components/symptom-checker';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Heart, Microscope, PencilLine, Search, Users } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { getB12Info, type B12Info } from '@/services/b12-info';
-import { getB12Sources, type B12Source } from '@/services/b12-sources';
-import React, { useState, useEffect } from 'react';
+import { useToast } from "@/hooks/use-toast"
+import { useState } from 'react';
+
 
 export default function Home() {
-  const [b12Info, setB12Info] = useState<B12Info | null>(null);
-  const [b12Sources, setB12Sources] = useState<B12Source[] | null>(null);
-  const [loadingInfo, setLoadingInfo] = useState(true);
-  const [loadingSources, setLoadingSources] = useState(true);
-  const [errorInfo, setErrorInfo] = useState<string | null>(null);
-  const [errorSources, setErrorSources] = useState<string | null>(null);
+   const { toast } = useToast();
+   const [email, setEmail] = useState('');
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoadingInfo(true);
-        const info = await getB12Info();
-        setB12Info(info);
-        setErrorInfo(null);
-      } catch (err) {
-        setErrorInfo('Failed to load B12 information.');
-        console.error(err);
-      } finally {
-        setLoadingInfo(false);
-      }
+   const handleEmailSubmit = (e: React.FormEvent) => {
+     e.preventDefault();
+     // Basic email validation
+     if (email && email.includes('@')) {
+       toast({
+         title: "Subscribed!",
+         description: "You'll receive weekly tips and stories.",
+       });
+       setEmail(''); // Clear input after submission
+     } else {
+       toast({
+         variant: "destructive",
+         title: "Invalid Email",
+         description: "Please enter a valid email address.",
+       });
+     }
+   };
 
-      try {
-        setLoadingSources(true);
-        const sources = await getB12Sources();
-        setB12Sources(sources);
-        setErrorSources(null);
-      } catch (err) {
-        setErrorSources('Failed to load B12 sources.');
-        console.error(err);
-      } finally {
-        setLoadingSources(false);
-      }
-    }
-    fetchData();
-  }, []);
+
+  const quickFacts = [
+    { id: 1, stat: 'Up to 15%', description: 'of the general population may have B12 deficiency.' },
+    { id: 2, stat: '40%+', description: 'of vegetarians and 80%+ of vegans may be B12 deficient without supplementation.' },
+    { id: 3, stat: 'Fatigue', description: 'is one of the most common early symptoms.' },
+    { id: 4, stat: 'Nerve Damage', description: 'can occur if deficiency is left untreated long-term.' },
+  ];
+
+  const features = [
+    { id: 1, icon: Microscope, title: 'Learn About B12', description: 'Understand its crucial role, benefits, and recommended dosages.', href: '/b12-benefits' },
+    { id: 2, icon: Search, title: 'Identify Symptoms', description: 'Recognize the signs of deficiency, from mild to severe.', href: '/b12-deficiency-symptoms' },
+    { id: 3, icon: PencilLine, title: 'Read Real Stories', description: 'Gain insights from personal journeys of diagnosis and recovery. (Coming Soon)', href: '#' }, // Update href when stories page is ready
+    { id: 4, icon: Users, title: 'Join the Community', description: 'Connect, ask questions, and share experiences with others. (Coming Soon)', href: '#' }, // Update href when community page is ready
+  ];
+
+  const stories = [
+    { id: 1, title: "Sarah's Journey to Recovery", excerpt: "After months of unexplained fatigue and brain fog, a B12 test changed everything...", name: "Sarah K.", image: "https://picsum.photos/seed/story1/400/300" },
+    { id: 2, title: "Mark's Vegan Challenge", excerpt: "Switching to a vegan diet was great, but I neglected my B12. Here's how I fixed it.", name: "Mark T.", image: "https://picsum.photos/seed/story2/400/300" },
+    { id: 3, title: "From Tingling to Thriving", excerpt: "The 'pins and needles' were just the start. Getting diagnosed was the key to feeling normal again.", name: "Emily R.", image: "https://picsum.photos/seed/story3/400/300" },
+     { id: 4, title: "Unexpected Diagnosis", excerpt: "I never thought my digestive issues were related to B12. Finding the connection was life-changing.", name: "David L.", image: "https://picsum.photos/seed/story4/400/300" },
+  ];
 
   return (
-    <div className="space-y-12">
-      {/* Introduction Section */}
-      <section className="text-center py-16 bg-gradient-to-r from-secondary via-background to-accent rounded-lg shadow-sm">
-        <h1 className="text-4xl font-bold tracking-tight text-primary mb-4">
-          Welcome to B12 Insight
+    <div className="space-y-16 md:space-y-24 animate-fade-in">
+      {/* Hero Section */}
+      <section className="text-center py-16 md:py-24 bg-gradient-to-br from-background via-secondary/10 to-accent/10 rounded-lg shadow-sm">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          Your Complete Guide to Vitamin B12
         </h1>
-        <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
-          Discover the vital role of Vitamin B12, understand deficiency symptoms,
-          and explore ways to improve your well-being.
+        <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto mb-8 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          From Symptoms to Solutions — Discover, Learn, and Share.
         </p>
+        <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+          <Button asChild size="lg" className="shadow-md hover:shadow-lg transition-shadow">
+            <Link href="/b12-benefits">Learn About B12</Link>
+          </Button>
+           {/* Updated to link to deficiency symptoms page which includes the checker idea */}
+          <Button asChild size="lg" variant="secondary" className="shadow-md hover:shadow-lg transition-shadow">
+             <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
+            <Link href="#">Join Community</Link> {/* Update href when community page is ready */}
+          </Button>
+        </div>
       </section>
 
-      {/* Core Features Grid */}
-      <div className="grid md:grid-cols-2 gap-8 items-start">
+      {/* Quick Facts Block */}
+       <section className="container mx-auto px-4 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+          <h2 className="text-3xl font-bold text-center mb-8 text-primary/90">B12 Deficiency: Key Facts</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {quickFacts.map((fact) => (
+              <Card key={fact.id} className="text-center bg-card/80 shadow hover:shadow-md transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-4xl font-bold text-primary">{fact.stat}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{fact.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
 
-        {/* Left Column */}
-        <div className="space-y-8">
-          {/* B12 Info Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl text-primary flex items-center gap-2">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-flask-conical"><path d="M10 2v7.31"/><path d="M14 9.31V2"/><path d="M3 13a2 2 0 0 0 .14 2.82L5 17.94a1.5 1.5 0 0 0 2.12 0L9.3 15.7a2 2 0 0 1 2.83 0L14.3 17.9a1.5 1.5 0 0 0 2.12 0L18.86 15.82A2 2 0 0 0 19 13v-1a2 2 0 0 0-2-2h-1a2 2 0 0 1-2-2V7a2 2 0 0 0-2-2h-1a2 2 0 0 1-2 2v1a2 2 0 0 1-2 2H7a2 2 0 0 0-2 2v1Z"/><path d="M8.29 14.29 9.7 15.7a1 1 0 0 0 1.4 0l1.19-1.19"/></svg>
-                About Vitamin B12
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <B12InfoDisplay
-                info={b12Info}
-                loading={loadingInfo}
-                error={errorInfo}
-              />
-            </CardContent>
-          </Card>
-
-          {/* B12 Sources Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl text-primary flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-utensils-crossed"><path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 1.8.7 2.5 0l7.3-7.3a4.2 4.2 0 0 0 0-6L15 15Zm0 0 7.3 7.3"/><path d="m2.1 2.1 6.4 6.4"/></svg>
-                Sources of B12
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <B12SourcesDisplay
-                sources={b12Sources}
-                loading={loadingSources}
-                error={errorSources}
-              />
-            </CardContent>
-          </Card>
+      {/* Feature Highlights */}
+      <section className="container mx-auto px-4 animate-fade-in" style={{ animationDelay: '1.0s' }}>
+         <h2 className="text-3xl font-bold text-center mb-12 text-primary/90">Explore B12 Insight</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature) => (
+            <Card key={feature.id} className="text-center hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 flex flex-col">
+              <CardHeader className="items-center">
+                <div className="p-4 bg-primary/10 rounded-full mb-4 inline-block">
+                   <feature.icon className="w-8 h-8 text-primary" />
+                </div>
+                <CardTitle className="text-xl">{feature.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <CardDescription>{feature.description}</CardDescription>
+              </CardContent>
+               <CardContent>
+                 <Button asChild variant="link" className="text-primary">
+                   <Link href={feature.href}>Learn More</Link>
+                 </Button>
+               </CardContent>
+            </Card>
+          ))}
         </div>
+      </section>
 
-        {/* Right Column */}
-        <div className="sticky top-8"> {/* Make Symptom Checker sticky */}
-          {/* Symptom Checker Section */}
-          <Card className="bg-accent/30 border-primary/30">
-            <CardHeader>
-              <CardTitle className="text-2xl text-primary flex items-center gap-2">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-clipboard-check"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
-                Symptom Checker
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SymptomChecker />
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+       {/* Patient Story Preview Carousel */}
+       <section className="bg-muted/50 py-16 md:py-20 animate-fade-in" style={{ animationDelay: '1.2s' }}>
+         <div className="container mx-auto px-4">
+           <h2 className="text-3xl font-bold text-center mb-12 text-primary/90">Real Stories, Real Impact</h2>
+           <Carousel
+            opts={{ align: "start", loop: true }}
+            className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl mx-auto"
+           >
+             <CarouselContent>
+               {stories.map((story) => (
+                 <CarouselItem key={story.id} className="md:basis-1/2 lg:basis-1/3">
+                   <div className="p-1 h-full">
+                     <Card className="flex flex-col h-full overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+                      <img src={story.image} alt={story.title} className="w-full h-48 object-cover" />
+                       <CardHeader>
+                         <CardTitle className="text-lg">{story.title}</CardTitle>
+                         <CardDescription className="text-xs text-muted-foreground">By {story.name}</CardDescription>
+                       </CardHeader>
+                       <CardContent className="flex-grow">
+                         <p className="text-sm text-foreground/80 line-clamp-3">{story.excerpt}</p>
+                       </CardContent>
+                        <CardContent>
+                           <Button asChild variant="secondary" size="sm" className="w-full">
+                             <Link href="#">Read Full Story</Link> {/* Update href later */}
+                           </Button>
+                       </CardContent>
+                     </Card>
+                   </div>
+                 </CarouselItem>
+               ))}
+             </CarouselContent>
+             <CarouselPrevious className="absolute left-[-50px] top-1/2 -translate-y-1/2 hidden md:flex" />
+             <CarouselNext className="absolute right-[-50px] top-1/2 -translate-y-1/2 hidden md:flex" />
+           </Carousel>
+            <div className="text-center mt-8">
+                 <Button asChild variant="outline">
+                   <Link href="#">View All Stories</Link> {/* Update href later */}
+                 </Button>
+               </div>
+         </div>
+       </section>
+
+       {/* Email Signup Section */}
+      <section className="container mx-auto px-4 py-16 animate-fade-in" style={{ animationDelay: '1.4s' }}>
+        <Card className="max-w-2xl mx-auto bg-gradient-to-r from-accent/20 via-background to-secondary/20 shadow-lg border-primary/20">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl text-primary">Stay Informed</CardTitle>
+            <CardDescription>Get weekly health tips and real stories in your inbox.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-2">
+              <Input
+                type="email"
+                placeholder="Enter your email address"
+                className="flex-grow"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                aria-label="Email for newsletter"
+              />
+              <Button type="submit" className="shadow hover:shadow-md transition-shadow">Subscribe</Button>
+            </form>
+          </CardContent>
+        </Card>
+      </section>
+
     </div>
   );
 }

@@ -11,7 +11,7 @@ export default {
   theme: {
   	extend: {
       fontFamily: { // Add fontFamily
-        sans: ["var(--font-poppins)", ...fontFamily.sans],
+        sans: ["var(--font-manrope)", "'General Sans'", ...fontFamily.sans], // Use Manrope, fallback to General Sans, then system sans
       },
   		colors: {
   			background: 'hsl(var(--background))',
@@ -89,14 +89,14 @@ export default {
   			},
         // Add subtle fade-in animation
         'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+          '0%': { opacity: '0' , transform: 'translateY(10px)'}, // Start slightly down and transparent
+          '100%': { opacity: '1', transform: 'translateY(0)' }, // End fully visible and in place
         },
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 0.5s ease-out forwards', // Apply fade-in
+        'fade-in': 'fade-in 0.6s ease-out forwards', // Apply fade-in, slightly longer duration
   		}
   	}
   },

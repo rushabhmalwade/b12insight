@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google'; // Import Poppins
+import { Manrope } from 'next/font/google'; // Import Manrope
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/toaster"; // Import Toaster
 import { Header } from '@/components/layout/header'; // Import Header
 
-// Configure Poppins font
-const poppins = Poppins({
-  variable: '--font-poppins',
+// Configure Manrope font
+const manrope = Manrope({
+  variable: '--font-manrope', // Use --font-manrope
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'], // Add necessary weights
 });
@@ -28,12 +28,12 @@ export default function RootLayout({
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
-          poppins.variable // Apply Poppins font variable
+          manrope.variable // Apply Manrope font variable
         )}
         suppressHydrationWarning={true} // Add suppressHydrationWarning here as well
       >
         <Header /> {/* Add Header */}
-        <main className="container mx-auto px-4 py-8"> {/* Add main container */}
+        <main className="pt-8 pb-16"> {/* Adjust padding for main content */}
           {children}
         </main>
         <Toaster /> {/* Add Toaster */}
