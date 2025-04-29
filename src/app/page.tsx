@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -83,7 +84,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center mb-8 text-primary/90">B12 Deficiency: Key Facts</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {quickFacts.map((fact) => (
-              <Card key={fact.id} className="text-center bg-card/80 shadow hover:shadow-md transition-shadow">
+              <Card key={fact.id} className="text-center bg-card/80 shadow hover:shadow-md transition-shadow transform hover:-translate-y-1">
                 <CardHeader>
                   <CardTitle className="text-4xl font-bold text-primary">{fact.stat}</CardTitle>
                 </CardHeader>
