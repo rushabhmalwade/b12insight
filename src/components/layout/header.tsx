@@ -57,8 +57,9 @@ export function Header() {
 
   const navItems = [
     { href: '/', label: 'Home' },
-    { href: '/b12-deficiency-symptoms', label: 'B12 Deficiency' },
-    { href: '/b12-benefits', label: 'B12 Benefits' },
+    { href: '/about-b12', label: 'About B12' }, // Added About B12 link
+    { href: '/b12-deficiency-symptoms', label: 'Symptoms' }, // Shortened label
+    { href: '/b12-benefits', label: 'Benefits' }, // Shortened label
     { href: '/contact', label: 'Contact' },
     { href: '/legal', label: 'Legal' },
   ];

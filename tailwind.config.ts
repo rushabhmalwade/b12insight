@@ -11,7 +11,9 @@ export default {
   theme: {
   	extend: {
       fontFamily: { // Add fontFamily
-        sans: ["var(--font-manrope)", "'General Sans'", ...fontFamily.sans], // Use Manrope, fallback to General Sans, then system sans
+        sans: ["var(--font-inter)", ...fontFamily.sans], // Use Inter as default sans-serif
+        serif: ["var(--font-playfair-display)", ...fontFamily.serif], // Use Playfair Display as default serif
+        manrope: ["var(--font-manrope)"], // Keep Manrope available if needed elsewhere
       },
   		colors: {
   			background: 'hsl(var(--background))',
@@ -40,6 +42,9 @@ export default {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
+        // Add deep red/cyan accents if needed, or use existing theme colors
+        // 'deep-red': '#B91C1C', // Example deep red
+        // 'cyan-highlight': '#0891B2', // Example cyan
   			destructive: {
   				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
