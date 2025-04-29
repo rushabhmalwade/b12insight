@@ -74,7 +74,7 @@ export default function Home() {
              <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
           </Button>
           <Button asChild size="lg" variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
-             <Link href="#">Join Community</Link> {/* Update href when community page is ready */}
+             <Link href="#">Join Community</Link>
           </Button>
         </div>
       </section>
@@ -144,7 +144,7 @@ export default function Home() {
                        </CardContent>
                         <CardContent>
                            <Button asChild variant="secondary" size="sm" className="w-full">
-                              <Link href="#">Read Full Story</Link> {/* Update href later */}
+                              <Link href="#">Read Full Story</Link>
                            </Button>
                        </CardContent>
                      </Card>
@@ -157,7 +157,7 @@ export default function Home() {
            </Carousel>
             <div className="text-center mt-8">
                  <Button asChild variant="outline">
-                    <Link href="#">View All Stories</Link> {/* Update href later */}
+                    <Link href="#">View All Stories</Link>
                  </Button>
                </div>
          </div>
