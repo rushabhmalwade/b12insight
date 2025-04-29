@@ -1,11 +1,21 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { AlertCircle, Brain, HeartPulse, SmilePlus, Stethoscope, UserCheck, Users, Footprints, HelpCircle, AlertTriangle, Leaf, Pill } from 'lucide-react'; // Import Leaf and Pill
+import { AlertCircle, Brain, HeartPulse, SmilePlus, Stethoscope, UserCheck, Users, Footprints, HelpCircle, AlertTriangle, Leaf, Pill, Send, Loader2 } from 'lucide-react'; // Import Leaf, Pill, Send, Loader2
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link'; // Import Link for navigation
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Progress } from '@/components/ui/progress';
+import { useToast } from "@/hooks/use-toast";
+import type { SymptomCheckerInput, SymptomCheckerOutput } from '@/ai/flows/symptom-checker'; // Import types
+import { checkB12DeficiencySymptoms } from '@/ai/flows/symptom-checker'; // Import the flow function
 
 // Icons for categories
 const NeurologicalIcon = Brain;
@@ -103,8 +113,64 @@ const testingInfo = [
     { test: 'Holotranscobalamin (Active B12) Test', description: 'Measures the amount of B12 attached to its transport protein (transcobalamin), representing the B12 readily available for cells. Potentially more accurate but less widely available.', rangeInfo: 'Lower levels indicate reduced bioavailable B12.' },
 ];
 
+// Zod schema for form validation based on SymptomCheckerInput
+const formSchema = z.object({
+  age: z.coerce.number().min(0, { message: "Age must be a positive number." }).max(120, { message: "Please enter a realistic age." }),
+  diet: z.string().min(1, { message: "Please describe your primary diet type (e.g., Vegan, Omnivore)." }),
+  symptoms: z.string().min(3, { message: "Please list at least one symptom." }),
+});
+
+type SymptomFormValues = z.infer<typeof formSchema>;
 
 export default function B12DeficiencySymptomsPage() {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [checkerResult, setCheckerResult] = useState<SymptomCheckerOutput | null>(null);
+  const [checkerError, setCheckerError] = useState<string | null>(null);
+
+  const form = useForm<SymptomFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      age: undefined, // Use undefined for number inputs initially
+      diet: "",
+      symptoms: "",
+    },
+  });
+
+  async function onSubmit(values: SymptomFormValues) {
+    setIsSubmitting(true);
+    setCheckerResult(null); // Clear previous results
+    setCheckerError(null); // Clear previous errors
+    console.log('Form Values:', values);
+
+    try {
+      const input: SymptomCheckerInput = {
+        age: values.age,
+        diet: values.diet,
+        symptoms: values.symptoms,
+      };
+      const result = await checkB12DeficiencySymptoms(input);
+      setCheckerResult(result);
+      toast({
+        title: "Assessment Complete",
+        description: "Review the probability and advice below.",
+      });
+    } catch (error) {
+      console.error("Symptom checker error:", error);
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+      setCheckerError(`Failed to get assessment: ${errorMessage}`);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: `Could not complete assessment. ${errorMessage}`,
+      });
+    } finally {
+      setIsSubmitting(false);
+      // Do not reset form here, allow user to see their inputs with the result
+      // form.reset();
+    }
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 space-y-12 font-inter">
 
@@ -152,31 +218,114 @@ export default function B12DeficiencySymptomsPage() {
           </div>
       </section>
 
-       {/* Symptom Checker Tool Placeholder */}
-       <section>
-          <h2 className="text-3xl font-serif font-bold text-primary mb-8 text-center">Symptom Checker</h2>
-           <Card className="shadow-lg text-center border-dashed border-primary/50">
+       {/* Symptom Checker Tool Section */}
+       <section id="symptom-checker">
+          <h2 className="text-3xl font-serif font-bold text-primary mb-8 text-center">AI Symptom Assessment</h2>
+           <Card className="shadow-lg border-primary/30">
                 <CardHeader>
-                    <CardTitle className="font-serif text-2xl text-primary flex items-center justify-center gap-2"><HelpCircle className="w-6 h-6"/> Curious About Your Symptoms?</CardTitle>
-                    <CardDescription>While this tool cannot diagnose, exploring potential links can be informative. For a diagnosis, consult a healthcare professional.</CardDescription>
+                    <CardTitle className="font-serif text-2xl text-primary flex items-center gap-2"><HelpCircle className="w-6 h-6"/> Assess Your Symptoms (AI-Powered)</CardTitle>
+                    <CardDescription>Enter your details below to get an AI-based probability assessment for B12 deficiency. <strong className="text-destructive">This is not a diagnosis.</strong> Consult a healthcare professional for medical advice.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <p className="text-muted-foreground">
-                        An interactive symptom checker tool is planned for a future update. It will allow you to select experienced symptoms and receive guidance based on common patterns associated with B12 deficiency.
-                    </p>
-                     {/* Placeholder Button - Link to AI checker if/when implemented */}
-                    <Button variant="secondary" disabled>
-                      Symptom Checker Tool (Coming Soon)
-                    </Button>
-                    {/* Optional: Link to the AI flow page if you create one */}
-                    {/*
-                     <Button asChild>
-                       <Link href="/symptom-checker-ai">Try AI Symptom Assessment</Link>
-                     </Button>
-                     */}
-                     <p className="text-xs text-muted-foreground mt-4">
-                       Remember: Self-assessment tools are not a substitute for professional medical evaluation.
-                     </p>
+                <CardContent className="space-y-6">
+                   <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                         <div className="grid md:grid-cols-2 gap-6">
+                            <FormField
+                              control={form.control}
+                              name="age"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Age</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" placeholder="Enter your age" {...field} value={field.value ?? ''} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                             <FormField
+                              control={form.control}
+                              name="diet"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Primary Diet Type</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="e.g., Vegan, Vegetarian, Omnivore, Pescatarian" {...field} />
+                                  </FormControl>
+                                   <FormDescription>A single word describing your main diet helps the assessment.</FormDescription>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                         </div>
+
+                           <FormField
+                            control={form.control}
+                            name="symptoms"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Symptoms Experienced</FormLabel>
+                                <FormControl>
+                                  <Textarea
+                                      placeholder="List your symptoms, separated by commas (e.g., fatigue, tingling hands, brain fog, pale skin)"
+                                      {...field}
+                                      rows={4}
+                                  />
+                                </FormControl>
+                                 <FormDescription>Be concise but clear. Use commas between symptoms.</FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                         <div className="flex justify-end">
+                           <Button type="submit" disabled={isSubmitting} size="lg">
+                             {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Assessing...</> : <>Get Assessment <Send className="w-4 h-4 ml-2" /></>}
+                           </Button>
+                         </div>
+                      </form>
+                    </Form>
+
+                     {/* Results Display */}
+                     {checkerResult && (
+                       <Card className="mt-6 bg-green-50 dark:bg-green-900/20 border-green-600">
+                          <CardHeader>
+                             <CardTitle className="text-xl text-green-700 dark:text-green-400">Assessment Result</CardTitle>
+                          </CardHeader>
+                          <CardContent className="space-y-4">
+                              <div>
+                                  <p className="text-sm font-medium text-muted-foreground mb-1">Probability of B12 Deficiency:</p>
+                                   <div className="flex items-center gap-2">
+                                       <Progress value={checkerResult.probability * 100} className="w-full h-3" />
+                                       <span className="font-bold text-lg text-green-700 dark:text-green-400">{(checkerResult.probability * 100).toFixed(0)}%</span>
+                                   </div>
+                              </div>
+                              <div>
+                                  <p className="text-sm font-medium text-muted-foreground mb-1">AI Generated Advice:</p>
+                                  <p className="text-foreground/90">{checkerResult.advice}</p>
+                              </div>
+                               <p className="text-xs text-muted-foreground pt-4 border-t">
+                                  <strong className="text-destructive">Important:</strong> This assessment is based on AI analysis and is for informational purposes only. It does not replace professional medical diagnosis. Please consult your doctor to discuss your symptoms and potential testing.
+                               </p>
+                          </CardContent>
+                       </Card>
+                     )}
+
+                     {/* Error Display */}
+                     {checkerError && (
+                         <Card className="mt-6 bg-red-50 dark:bg-red-900/20 border-destructive">
+                             <CardHeader>
+                                <CardTitle className="text-xl text-destructive">Assessment Error</CardTitle>
+                             </CardHeader>
+                             <CardContent>
+                                 <p className="text-destructive/90">{checkerError}</p>
+                                  <p className="text-xs text-muted-foreground mt-2">
+                                     Please check your network connection and try again. If the problem persists, contact support.
+                                  </p>
+                             </CardContent>
+                         </Card>
+                     )}
+
                 </CardContent>
            </Card>
        </section>
@@ -266,7 +415,7 @@ export default function B12DeficiencySymptomsPage() {
         <Card className="mt-12 border-dashed border-primary/50">
           <CardContent className="pt-6">
             <p className="text-xs text-muted-foreground text-center">
-              <strong>Disclaimer:</strong> This information is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this website.
+              <strong>Disclaimer:</strong> This information, including the AI symptom assessment, is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this website.
             </p>
           </CardContent>
         </Card>
