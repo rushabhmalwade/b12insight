@@ -30,6 +30,7 @@ export default function RootLayout({
           'min-h-screen bg-background font-sans antialiased',
           poppins.variable // Apply Poppins font variable
         )}
+        suppressHydrationWarning={true} // Add suppressHydrationWarning here as well
       >
         <Header /> {/* Add Header */}
         <main className="container mx-auto px-4 py-8"> {/* Add main container */}
@@ -40,4 +41,3 @@ export default function RootLayout({
     </html>
   );
 }
-
