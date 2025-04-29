@@ -67,8 +67,9 @@ export default function Home() {
           From Symptoms to Solutions — Discover, Learn, and Share.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-          <Button asChild size="lg" className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1">
-            <Link href="/about-b12">Learn About B12</Link> {/* Updated href */}
+          {/* Temporarily remove asChild to debug */}
+          <Button size="lg" className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1">
+            <Link href="/about-b12">Learn About B12</Link>
           </Button>
           <Button asChild size="lg" variant="secondary" className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1">
              <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
