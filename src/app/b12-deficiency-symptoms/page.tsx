@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { AlertCircle, Brain, HeartPulse, SmilePlus, Stethoscope, UserCheck, Users, Footprints, HelpCircle, AlertTriangle } from 'lucide-react';
+import { AlertCircle, Brain, HeartPulse, SmilePlus, Stethoscope, UserCheck, Users, Footprints, HelpCircle, AlertTriangle, Leaf, Pill } from 'lucide-react'; // Import Leaf and Pill
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link'; // Import Link for navigation
