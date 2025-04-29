@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -14,33 +15,38 @@ const svgPathData2 = "M3.8 20.2c-2.04-2.03-.02-7.36 4.5-11.9 4.54-4.52 9.87-6.54
 
 // Placeholder for theme toggle functionality - Improved for hydration safety
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState('light'); // Default theme
     const [mounted, setMounted] = useState(false);
 
-    // Effect to set the theme class on mount and theme change
+    // Effect to apply theme class on mount and theme change
     useEffect(() => {
-      const root = window.document.documentElement;
-      // Set initial theme from localStorage or system preference if needed
-      // For simplicity, we start with 'light' and allow toggle
-      root.classList.remove(theme === 'light' ? 'dark' : 'light');
-      root.classList.add(theme);
-      // Optionally save theme to localStorage
-      // localStorage.setItem('theme', theme);
-    }, [theme]);
+        if (mounted) { // Only run after mount
+            const root = window.document.documentElement;
+            const currentTheme = root.classList.contains('dark') ? 'dark' : 'light';
+            if (theme !== currentTheme) {
+                 root.classList.remove(currentTheme);
+                 root.classList.add(theme);
+                 // Optionally save theme to localStorage
+                 localStorage.setItem('theme', theme);
+            }
+        }
+    }, [theme, mounted]);
 
-    // Effect to ensure component is mounted before rendering theme-specific UI
-    useEffect(() => {
-      setMounted(true);
-      // Optionally read initial theme from localStorage here
-      // const storedTheme = localStorage.getItem('theme') || 'light';
-      // setTheme(storedTheme);
-    }, []);
+    // Effect to set initial theme and mark as mounted
+     useEffect(() => {
+        const storedTheme = localStorage.getItem('theme');
+        // Check system preference if no theme is stored
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(storedTheme || (prefersDark ? 'dark' : 'light'));
+        setMounted(true); // Component is mounted
+     }, []);
+
 
     const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
     // Render a placeholder or null initially, then the actual button content
     if (!mounted) {
-        // Render a placeholder button to prevent layout shift and hydration mismatch on attributes like `disabled`
+        // Render a placeholder button to prevent layout shift
         return <Button variant="ghost" size="icon" disabled aria-label="Toggle theme" className="h-9 w-9" />;
     }
 
@@ -57,9 +63,10 @@ export function Header() {
 
   const navItems = [
     { href: '/', label: 'Home' },
-    { href: '/about-b12', label: 'About B12' }, // Added About B12 link
-    { href: '/b12-deficiency-symptoms', label: 'Symptoms' }, // Shortened label
-    { href: '/b12-benefits', label: 'Benefits' }, // Shortened label
+    { href: '/about-b12', label: 'About B12' },
+    { href: '/sources-of-b12', label: 'Sources' }, // Added Sources link
+    { href: '/b12-deficiency-symptoms', label: 'Symptoms' },
+    { href: '/b12-benefits', label: 'Benefits' },
     { href: '/contact', label: 'Contact' },
     { href: '/legal', label: 'Legal' },
   ];
@@ -75,7 +82,7 @@ export function Header() {
              <path d={svgPathData1}/>
              <path d={svgPathData2}/>
            </svg>
-          <span className="font-bold text-xl text-primary">B12 Insight</span>
+          <span className="font-bold text-xl text-primary font-serif">B12 Insight</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -114,7 +121,7 @@ export function Header() {
                    <path d={svgPathData1}/>
                    <path d={svgPathData2}/>
                  </svg>
-                <span className="font-bold text-lg text-primary">B12 Insight</span>
+                <span className="font-bold text-lg text-primary font-serif">B12 Insight</span>
               </Link>
               <div className="flex flex-col gap-3 pl-6">
                 {navItems.map((item) => (
@@ -135,3 +142,4 @@ export function Header() {
     </header>
   );
 }
+
