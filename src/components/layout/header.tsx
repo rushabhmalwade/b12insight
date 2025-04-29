@@ -10,7 +10,7 @@ import { Menu, Sun, Moon } from 'lucide-react';
 
 // Consistent SVG path data
 const svgPathData1 = "M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z";
-const svgPathData2 = "M3.8 20.2c-2.04-2.03-.02-7.36 4.5-11.9 4.54-4.52 9.87-6.54 11.9-4.5 2.04 2.03.02 7.36-4.5 11.9-4.54 4.52-9.87 6.54 11.9 4.5Z";
+const svgPathData2 = "M3.8 20.2c-2.04-2.03-.02-7.36 4.5-11.9 4.54-4.52 9.87-6.54 11.9-4.5 2.04 2.03.02 7.36-4.5 11.9-4.54 4.52-9.87 6.54-11.9 4.5Z";
 
 
 // Placeholder for theme toggle functionality - Improved for hydration safety
@@ -68,7 +68,7 @@ export function Header() {
     { href: '/b12-deficiency-symptoms', label: 'Symptoms' }, // Updated label if needed
     { href: '/b12-benefits', label: 'Benefits' },
     { href: '/contact', label: 'Contact' },
-    { href: '/legal', label: 'Legal' },
+    { href: '/legal', label: 'Legal' }, // Corrected label
   ];
 
   return (
@@ -142,3 +142,5 @@ export function Header() {
     </header>
   );
 }
+
+    

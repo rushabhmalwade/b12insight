@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Manrope, Playfair_Display, Inter } from 'next/font/google'; // Import Playfair Display and Inter
+import { Manrope, Playfair_Display, Inter, Roboto_Mono } from 'next/font/google'; // Import Playfair Display, Inter, and Roboto Mono
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/toaster"; // Import Toaster
@@ -26,6 +26,13 @@ const inter = Inter({
   weight: ['400', '500', '600'], // Add necessary weights
 });
 
+// Configure Roboto Mono font for monospace text
+const robotoMono = Roboto_Mono({
+  variable: '--font-mono',
+  subsets: ['latin'],
+  weight: ['400', '500', '700'], // Add necessary weights
+});
+
 
 export const metadata: Metadata = {
   title: 'B12 Insight', // Update title
@@ -44,7 +51,8 @@ export default function RootLayout({
           'min-h-screen bg-background font-sans antialiased',
           manrope.variable, // Apply Manrope font variable (can be default)
           playfairDisplay.variable, // Apply Playfair Display variable
-          inter.variable // Apply Inter variable (can be default body font)
+          inter.variable, // Apply Inter variable (can be default body font)
+          robotoMono.variable // Apply Roboto Mono variable
         )}
         suppressHydrationWarning={true} // Add suppressHydrationWarning here as well
       >

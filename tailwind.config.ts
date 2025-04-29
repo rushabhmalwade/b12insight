@@ -14,6 +14,7 @@ export default {
         sans: ["var(--font-inter)", ...fontFamily.sans], // Use Inter as default sans-serif
         serif: ["var(--font-playfair-display)", ...fontFamily.serif], // Use Playfair Display as default serif
         manrope: ["var(--font-manrope)"], // Keep Manrope available if needed elsewhere
+        mono: ["var(--font-mono)", ...fontFamily.mono], // Add monospace font family
       },
   		colors: {
   			background: 'hsl(var(--background))',
