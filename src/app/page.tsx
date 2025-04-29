@@ -69,9 +69,8 @@ export default function Home() {
           <Button asChild size="lg" className="shadow-md hover:shadow-lg transition-shadow">
             <Link href="/b12-benefits">Learn About B12</Link>
           </Button>
-           {/* Updated to link to deficiency symptoms page which includes the checker idea */}
           <Button asChild size="lg" variant="secondary" className="shadow-md hover:shadow-lg transition-shadow">
-             <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
+            <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
           </Button>
           <Button asChild size="lg" variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
             <Link href="#">Join Community</Link> {/* Update href when community page is ready */}
