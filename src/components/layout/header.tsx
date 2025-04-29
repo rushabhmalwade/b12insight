@@ -33,10 +33,12 @@ const ThemeToggle = () => {
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Basic navigation links - extend as needed
   const navItems = [
     { href: '/', label: 'Home' },
-    // Add other page links here once created e.g., { href: '/about', label: 'About B12' }
+    { href: '/b12-deficiency-symptoms', label: 'B12 Deficiency' },
+    { href: '/b12-benefits', label: 'B12 Benefits' },
+    { href: '/contact', label: 'Contact' },
+    { href: '/legal', label: 'Legal' },
   ];
 
   return (
