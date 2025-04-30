@@ -354,7 +354,7 @@ export default function SourcesOfB12Page() {
 
         {/* AI Diet Planner Tab */}
          <TabsContent value="planner" className="animate-fade-in">
-            <Card className="shadow-xl rounded-xl border-2 border-primary/30 bg-gradient-to-br from-card to-secondary/10">
+            <Card className="shadow-xl rounded-xl border-2 border-primary/30 bg-gradient-to-br from-card to-secondary/30"> {/* Increased opacity */}
                 <CardHeader className="p-6">
                     <CardTitle className="font-serif text-2xl md:text-3xl text-primary flex items-center gap-3 tracking-tight"><Bot className="w-7 h-7"/> AI-Powered B12 Diet Planner</CardTitle>
                     <CardDescription className="text-muted-foreground mt-2 text-base">
@@ -624,7 +624,7 @@ export default function SourcesOfB12Page() {
       {/* Nutritionist Tips Section (Existing) */}
       <section className="mt-16 md:mt-20 animate-fade-in" style={{ animationDelay: '0.6s' }}>
         <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-10 md:mb-12 text-center tracking-tight">Nutritionist Tips</h2>
-        <Card className="bg-gradient-to-r from-accent/20 via-background to-secondary/20 border-primary/20 shadow-lg rounded-xl overflow-hidden">
+        <Card className="bg-gradient-to-r from-accent/30 via-background to-secondary/40 border-primary/20 shadow-lg rounded-xl overflow-hidden"> {/* Increased opacity */}
           <CardContent className="p-6 md:p-8 grid md:grid-cols-3 gap-8 items-center">
              <div className="flex justify-center md:col-span-1">
                  <ChefHat className="w-20 h-20 text-primary opacity-80" />

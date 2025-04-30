@@ -226,7 +226,7 @@ export default function ResourcesPage() {
       </section>
 
       {/* Downloadables Section */}
-      <section className="bg-gradient-to-br from-muted/30 to-secondary/20 py-16 md:py-20 rounded-2xl shadow-inner animate-fade-in" style={{ animationDelay: '0.3s' }}>
+      <section className="bg-gradient-to-br from-muted/40 to-secondary/30 py-16 md:py-20 rounded-2xl shadow-inner animate-fade-in" style={{ animationDelay: '0.3s' }}> {/* Increased opacity */}
         <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-10 md:mb-12 text-center flex items-center justify-center gap-3 tracking-tight">
            <Download className="w-8 h-8" /> Downloadable Guides & Checklists
         </h2>

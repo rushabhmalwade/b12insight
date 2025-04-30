@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <div className="space-y-20 md:space-y-32 overflow-x-hidden"> {/* Prevent horizontal overflow */}
       {/* Hero Section */}
-      <section className="relative text-center py-20 md:py-32 bg-gradient-to-br from-secondary/30 via-background to-accent/20 overflow-hidden">
+      <section className="relative text-center py-20 md:py-32 bg-gradient-to-br from-secondary/50 via-background to-accent/30 overflow-hidden"> {/* Increased opacity */}
          {/* Optional: Add subtle background pattern or shapes */}
          <div className="absolute inset-0 opacity-10 dark:opacity-5 [mask-image:radial-gradient(farthest-side_at_top_left,white,transparent)]">
            {/* Example pattern */}
@@ -114,13 +114,11 @@ export default function Home() {
                     {/* Updated rendering logic for description */}
                      <p className="text-muted-foreground font-inter text-sm">
                        {fact.descriptionPrefix}
-                       {fact.descriptionLinkText && (
+                       {fact.descriptionLinkText ? (
                          // Render linked text as a span with styling, not a nested Link
                          <span className="text-primary font-medium group-hover:underline">{fact.descriptionLinkText}</span>
-                       )}
+                       ) : fact.description}
                        {fact.descriptionSuffix}
-                       {/* Render simple description if link parts are not present */}
-                       {fact.description}
                      </p>
                   </CardContent>
                 </Card>
@@ -221,7 +219,7 @@ export default function Home() {
 
        {/* Email Signup Section */}
       <section className="container mx-auto px-4 py-16 md:py-20 animate-fade-in" style={{ animationDelay: '1.0s' }}>
-        <Card className="max-w-2xl mx-auto bg-gradient-to-r from-primary/10 via-background to-accent/10 shadow-lg border-primary/20 rounded-xl p-6 md:p-8">
+        <Card className="max-w-2xl mx-auto bg-gradient-to-r from-primary/20 via-background to-accent/20 shadow-lg border-primary/20 rounded-xl p-6 md:p-8"> {/* Increased opacity */}
           <CardHeader className="text-center pt-0 px-0 pb-4">
             <CardTitle className="text-2xl md:text-3xl text-primary font-serif tracking-tight">Stay Informed</CardTitle>
             <CardDescription className="font-inter text-foreground/70 mt-2">Get weekly health tips, B12 insights, and real stories in your inbox.</CardDescription>
@@ -247,5 +245,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
