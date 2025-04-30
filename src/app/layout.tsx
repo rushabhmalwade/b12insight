@@ -46,13 +46,15 @@ export const metadata: Metadata = {
     description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and living better.',
     url: 'https://b12insight.com', // Default OG URL
     siteName: 'B12 Insight',
-    // images: [ // Add a default OG image if available
-    //   {
-    //     url: 'https://b12insight.com/og-image.png', // Replace with your actual image URL
-    //     width: 1200,
-    //     height: 630,
-    //   },
-    // ],
+    // IMPORTANT: Replace with your actual preview image URL
+    images: [
+      {
+        url: 'https://b12insight.com/og-image.png', // Placeholder OG image URL
+        width: 1200,
+        height: 630,
+        alt: 'B12 Insight Website Preview',
+      },
+    ],
     locale: 'en_US',
     type: 'website',
   },
@@ -62,7 +64,8 @@ export const metadata: Metadata = {
       description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and living better.',
       // site: '@yourtwitterhandle', // Add twitter handle if available
       // creator: '@creatorhandle', // Add creator handle if available
-      // images: ['https://b12insight.com/twitter-image.png'], // Replace with your actual image URL
+      // IMPORTANT: Replace with your actual preview image URL
+      images: ['https://b12insight.com/twitter-image.png'], // Placeholder Twitter image URL
    },
    robots: { // Default robots policy
      index: true,
@@ -78,51 +81,6 @@ export const metadata: Metadata = {
    // Charset is handled by Next.js automatically
 };
 
-
-// --- Metadata for specific pages (Exported constants) ---
-// These can be imported and used in generateMetadata functions in specific page.tsx/layout.tsx files
-
-export const metadataHomePage: Metadata = {
-  title: 'B12 Insight - Your Guide to Vitamin B12', // Specific title for home
-  description: 'Discover the importance of Vitamin B12, identify symptoms of deficiency, explore sources, and connect with our community. Start your journey to better health.',
-  alternates: { canonical: '/' },
-};
-
-export const metadataAboutPage: Metadata = {
-  title: 'About Vitamin B12 (Cobalamin)',
-  description: 'Learn what Vitamin B12 is, its crucial roles in the body (DNA synthesis, nerve health, energy), recommended daily dosages, and common myths vs. facts.',
-  alternates: { canonical: '/about-b12' },
-};
-
-export const metadataSourcesPage: Metadata = {
-   title: 'Sources of Vitamin B12',
-   description: 'Explore natural animal sources, reliable plant-based/vegan options (fortified foods), and various B12 supplements (oral, sublingual, injection). Compare sources and use our AI diet planner.',
-   alternates: { canonical: '/sources-of-b12' },
- };
-
-export const metadataSymptomsPage: Metadata = {
-   title: 'B12 Deficiency Symptoms & Diagnosis',
-   description: 'Recognize common B12 deficiency symptoms (neurological, physical, psychological, oral), identify risk groups, understand testing methods, and use our AI assessment tool.',
-   alternates: { canonical: '/b12-deficiency-symptoms' },
- };
-
- export const metadataResourcesPage: Metadata = {
-   title: 'B12 Resources & Learning Hub',
-   description: 'Explore articles, expert videos, and downloadable guides on Vitamin B12. Filter by topic, search for information, and deepen your understanding.',
-   alternates: { canonical: '/resources' },
- };
-
- export const metadataContactPage: Metadata = {
-   title: 'Contact Us',
-   description: 'Get in touch with B12 Insight via our contact form or email. Find answers in our FAQs or connect with us on social media.',
-   alternates: { canonical: '/contact' },
- };
-
- export const metadataLegalPage: Metadata = {
-  title: 'Legal Information & Policies',
-  description: 'Review the Terms of Service, Privacy Policy, Cookie Policy, and Medical Disclaimer for B12 Insight. Understand your rights and our commitments.',
-  alternates: { canonical: '/legal' },
-};
 
 // --- Root Layout Component ---
 
