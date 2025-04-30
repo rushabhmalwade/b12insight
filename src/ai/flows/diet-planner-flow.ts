@@ -10,7 +10,7 @@
 import { ai } from '@/ai/ai-instance';
 import { z } from 'genkit';
 
-// Define Zod schemas for input and output
+// Define Zod schemas for input and output (Internal usage)
 const MealSchema = z.object({
   name: z.string().describe('Name of the meal (e.g., Breakfast, Lunch, Dinner, Snack).'),
   description: z.string().describe('Description of the meal, including specific foods.'),
@@ -23,7 +23,8 @@ const DailyPlanSchema = z.object({
   daily_summary: z.string().describe('A brief summary for the day, potentially highlighting overall B12 intake strategy.')
 });
 
-export const DietPlannerInputSchema = z.object({
+// Internal schema for validation and flow definition
+const DietPlannerInputSchema = z.object({
   age: z.number().min(1).max(120).describe('Age of the person in years.'),
   gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say']).describe('Gender of the person.'),
   activityLevel: z.enum(['sedentary', 'lightly_active', 'moderately_active', 'very_active', 'extra_active']).describe('Physical activity level.'),
@@ -33,16 +34,20 @@ export const DietPlannerInputSchema = z.object({
   healthGoals: z.array(z.string()).describe('List health goals (e.g., weight loss, muscle gain, general health, improve B12 intake).'),
   planDurationDays: z.number().int().min(1).max(7).default(3).describe('Duration of the diet plan in days (1-7).'),
 });
+
+// Exported type for frontend usage
 export type DietPlannerInput = z.infer<typeof DietPlannerInputSchema>;
 
-
-export const DietPlannerOutputSchema = z.object({
+// Internal schema for flow definition and output structure
+const DietPlannerOutputSchema = z.object({
   planTitle: z.string().describe('A suitable title for the generated diet plan.'),
   introduction: z.string().describe('A brief introductory paragraph for the diet plan, mentioning the focus on B12.'),
   dailyPlans: z.array(DailyPlanSchema).describe('An array containing the meal plans for each day.'),
   b12StrategyNotes: z.string().describe('General notes on how the plan incorporates Vitamin B12 based on the user\'s profile (e.g., reliance on fortified foods for vegans, inclusion of animal products, supplement suggestion).'),
   disclaimer: z.string().default('This diet plan is AI-generated and for informational purposes only. Consult with a qualified healthcare professional or registered dietitian before making significant changes to your diet.').describe('Standard disclaimer.'),
 });
+
+// Exported type for frontend usage
 export type DietPlannerOutput = z.infer<typeof DietPlannerOutputSchema>;
 
 // Exported function to be called from the frontend
@@ -52,7 +57,7 @@ export async function generateDietPlan(input: DietPlannerInput): Promise<DietPla
   return dietPlannerFlow(validatedInput);
 }
 
-// Define the prompt for the AI
+// Define the prompt for the AI (Internal usage)
 const dietPlannerPrompt = ai.definePrompt({
   name: 'dietPlannerPrompt',
   input: { schema: DietPlannerInputSchema },
@@ -94,7 +99,7 @@ Instructions:
 });
 
 
-// Define the Genkit flow
+// Define the Genkit flow (Internal usage)
 const dietPlannerFlow = ai.defineFlow<
   typeof DietPlannerInputSchema,
   typeof DietPlannerOutputSchema

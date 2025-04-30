@@ -18,8 +18,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from "@/hooks/use-toast";
 import type { DietPlannerInput, DietPlannerOutput } from '@/ai/flows/diet-planner-flow'; // Import types
-import { generateDietPlan, DietPlannerInputSchema } from '@/ai/flows/diet-planner-flow'; // Import function and schema
+import { generateDietPlan } from '@/ai/flows/diet-planner-flow'; // Import function
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'; // Import Accordion
+import { z } from 'zod'; // Import Zod
+
 
 // Data for B12 Sources (existing data)
 const animalSources = [
@@ -76,15 +78,30 @@ const allHealthGoals = [
   { id: 'increase_energy', label: 'Increase Energy Levels' },
 ];
 
+
+// Re-define the input schema locally for form validation since it's not exported from the flow file
+const DietPlannerInputSchemaForForm = z.object({
+  age: z.number().min(1).max(120).describe('Age of the person in years.'),
+  gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say']).describe('Gender of the person.'),
+  activityLevel: z.enum(['sedentary', 'lightly_active', 'moderately_active', 'very_active', 'extra_active']).describe('Physical activity level.'),
+  dietaryRestrictions: z.array(z.string()).optional().describe('List any dietary restrictions (e.g., vegan, vegetarian, gluten-free, dairy-free).'),
+  allergies: z.array(z.string()).optional().describe('List any food allergies.'),
+  dislikedFoods: z.array(z.string()).optional().describe('List foods the person dislikes.'),
+  healthGoals: z.array(z.string()).describe('List health goals (e.g., weight loss, muscle gain, general health, improve B12 intake).'),
+  planDurationDays: z.number().int().min(1).max(7).default(3).describe('Duration of the diet plan in days (1-7).'),
+});
+
+
 // Zod schema for the diet planner form
-const formSchema = DietPlannerInputSchema.extend({
-    // We use refine to ensure disliked foods aren't empty strings if provided
+const formSchema = DietPlannerInputSchemaForForm.extend({
+    // Use refine to ensure disliked foods aren't empty strings if provided
     dislikedFoods: z.string().optional().transform(val => val ? val.split(',').map(s => s.trim()).filter(Boolean) : []),
     allergies: z.string().optional().transform(val => val ? val.split(',').map(s => s.trim()).filter(Boolean) : []),
     // Need to handle multi-select checkboxes for Zod validation
     dietaryRestrictions: z.array(z.string()).optional(),
     healthGoals: z.array(z.string()).min(1, { message: "Please select at least one health goal." }),
 });
+
 
 type DietPlanFormValues = z.infer<typeof formSchema>;
 
@@ -116,16 +133,8 @@ export default function SourcesOfB12Page() {
 
      try {
         // Map form values back to the exact schema expected by the flow
-        const input: DietPlannerInput = {
-            age: values.age,
-            gender: values.gender,
-            activityLevel: values.activityLevel,
-            dietaryRestrictions: values.dietaryRestrictions,
-            allergies: values.allergies, // Already transformed to array
-            dislikedFoods: values.dislikedFoods, // Already transformed to array
-            healthGoals: values.healthGoals,
-            planDurationDays: values.planDurationDays,
-        };
+        // Type assertion is safe here because DietPlanFormValues extends the base input schema
+        const input: DietPlannerInput = values as DietPlannerInput;
 
         const result = await generateDietPlan(input);
 
@@ -423,7 +432,7 @@ export default function SourcesOfB12Page() {
                                                                     checked={field.value?.includes(item.id)}
                                                                     onCheckedChange={(checked) => {
                                                                         return checked
-                                                                            ? field.onChange([...field.value, item.id])
+                                                                            ? field.onChange([...(field.value || []), item.id])
                                                                             : field.onChange(field.value?.filter((value) => value !== item.id));
                                                                     }}
                                                                 />
