@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Heart, Microscope, PencilLine, Search, Users, CheckCircle, Brain, Droplet, Leaf } from 'lucide-react'; // Added more icons
-import { Separator } from '@/components/ui/separator';
+import { Microscope, Search, Users, Brain, Droplet, Leaf, Sparkles } from 'lucide-react'; // Added Sparkles
 import { useToast } from "@/hooks/use-toast";
 import { useState } from 'react';
 import Image from 'next/image'; // Use Next.js Image component
@@ -40,17 +39,17 @@ export default function Home() {
 
 
   const quickFacts = [
-    { id: 1, stat: 'Up to 15%', description: 'of people in developed countries may have B12 deficiency.', icon: Users },
-    { id: 2, stat: '80%+', description: 'of vegans/vegetarians not supplementing may be deficient.', icon: Leaf },
-    { id: 3, stat: 'Fatigue', description: 'is one of the most common, often overlooked, early symptoms.', icon: Droplet }, // Using Droplet metaphorically for energy level
-    { id: 4, stat: 'Nerve Health', description: 'B12 is crucial for maintaining healthy nerve function.', icon: Brain },
+    { id: 1, stat: 'Up to 15%', description: 'of people in developed countries may have B12 deficiency.', icon: Users, href: '/b12-deficiency-symptoms' },
+    { id: 2, stat: '80%+', description: <>of <Link href="/sources-of-b12" className="text-primary hover:underline font-medium">vegans/vegetarians</Link> not supplementing may be deficient.</>, icon: Leaf, href: '/sources-of-b12' },
+    { id: 3, stat: 'Fatigue', description: <>is one of the most common, often overlooked, <Link href="/b12-deficiency-symptoms" className="text-primary hover:underline font-medium">early symptoms</Link>.</>, icon: Droplet, href: '/b12-deficiency-symptoms' }, // Using Droplet metaphorically for energy level
+    { id: 4, stat: 'Nerve Health', description: <>B12 is crucial for maintaining healthy <Link href="/about-b12" className="text-primary hover:underline font-medium">nerve function</Link>.</>, icon: Brain, href: '/about-b12' },
   ];
 
   const features = [
     { id: 1, icon: Microscope, title: 'Learn About B12', description: 'Understand its crucial role, benefits, and recommended dosages.', href: '/about-b12' },
-    { id: 2, icon: Search, title: 'Identify Symptoms', description: 'Recognize the signs of deficiency & use our AI symptom checker.', href: '/b12-deficiency-symptoms#symptom-checker' }, // Link directly to checker
-    { id: 3, icon: PencilLine, title: 'Read Real Stories', description: 'Gain insights from personal journeys of diagnosis and recovery. (Coming Soon)', href: '/resources' }, // Updated link to resources
-    { id: 4, icon: Users, title: 'Join the Community', description: 'Connect, ask questions, and share experiences with others. (Coming Soon)', href: '/contact' }, // Updated link to contact
+    { id: 2, icon: Search, title: 'Identify Symptoms', description: 'Recognize the signs of deficiency & use our AI symptom checker.', href: '/b12-deficiency-symptoms' },
+    { id: 3, icon: Sparkles, title: 'Discover Sources', description: 'Explore food sources (animal & fortified vegan) and supplements.', href: '/sources-of-b12' }, // Changed icon and title
+    { id: 4, icon: Users, title: 'Community & Contact', description: 'Connect with others, ask questions, and share experiences.', href: '/contact' }, // Updated link and title
   ];
 
   const stories = [
@@ -81,14 +80,14 @@ export default function Home() {
             Your Complete Guide to Vitamin B12
           </h1>
           <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto mb-10 animate-fade-in font-inter" style={{ animationDelay: '0.3s' }}>
-            From Symptoms to Solutions — Discover, Learn, and Share your B12 journey.
+            From <Link href="/b12-deficiency-symptoms" className="text-primary hover:underline font-medium">Symptoms</Link> to Solutions — Discover, Learn, and Share your B12 journey.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 animate-fade-in" style={{ animationDelay: '0.5s' }}>
             <Button size="lg" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
               <Link href="/about-b12">Learn About B12</Link>
             </Button>
             <Button size="lg" variant="secondary" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
-               <Link href="/b12-deficiency-symptoms#symptom-checker">Check Symptoms</Link>
+               <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
             </Button>
              <Button size="lg" variant="outline" asChild className="shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
                <Link href="/contact">Join Community</Link>
@@ -102,17 +101,19 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary/90 font-serif tracking-tight">B12 Deficiency: Key Facts</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {quickFacts.map((fact) => (
-              <Card key={fact.id} className="text-center bg-card/90 backdrop-blur-sm shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1.5 border border-border/50 rounded-xl">
-                <CardHeader className="items-center pb-2 pt-6">
-                    <div className="p-3 bg-primary/10 rounded-full mb-3 inline-block text-primary">
-                        <fact.icon className="w-7 h-7" />
-                    </div>
-                  <CardTitle className="text-4xl font-bold text-primary">{fact.stat}</CardTitle>
-                </CardHeader>
-                <CardContent className="pb-6">
-                  <p className="text-muted-foreground font-inter text-sm">{fact.description}</p>
-                </CardContent>
-              </Card>
+              <Link href={fact.href || '#'} key={fact.id} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl group">
+                <Card className="text-center bg-card/90 backdrop-blur-sm shadow-md group-hover:shadow-lg transition-all duration-300 transform group-hover:-translate-y-1.5 border border-border/50 rounded-xl h-full flex flex-col">
+                  <CardHeader className="items-center pb-2 pt-6">
+                      <div className="p-3 bg-primary/10 rounded-full mb-3 inline-block text-primary">
+                          <fact.icon className="w-7 h-7" />
+                      </div>
+                    <CardTitle className="text-4xl font-bold text-primary">{fact.stat}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pb-6 flex-grow flex items-center justify-center">
+                    <p className="text-muted-foreground font-inter text-sm">{fact.description}</p>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </section>
@@ -122,19 +123,24 @@ export default function Home() {
          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary/90 font-serif tracking-tight">Explore B12 Insight</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature) => (
-            <Card key={feature.id} className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col bg-card/90 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden">
+            <Card key={feature.id} className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col bg-card/90 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden group">
               <CardHeader className="items-center pt-8 pb-4">
-                <div className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full mb-4 inline-block text-primary transition-transform duration-300 hover:scale-110">
+                <div className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full mb-4 inline-block text-primary transition-transform duration-300 group-hover:scale-110">
                    <feature.icon className="w-9 h-9" />
                 </div>
-                <CardTitle className="text-xl font-serif">{feature.title}</CardTitle>
+                <CardTitle className="text-xl font-serif">
+                    <Link href={feature.href} className="focus:outline-none">
+                         <span className="absolute inset-0" aria-hidden="true"></span>
+                         {feature.title}
+                    </Link>
+                </CardTitle>
               </CardHeader>
               <CardContent className="flex-grow px-6 pb-4">
                 <CardDescription className="font-inter text-foreground/70">{feature.description}</CardDescription>
               </CardContent>
                <CardContent className="pb-6">
-                 <Button asChild variant="link" className="text-primary font-medium text-base">
-                   <Link href={feature.href}>
+                 <Button asChild variant="link" className="text-primary font-medium text-base relative z-10">
+                   <Link href={feature.href} tabIndex={-1}>
                     {feature.title === 'Identify Symptoms' ? 'Check Now' : 'Learn More'} →
                    </Link>
                  </Button>
@@ -156,27 +162,33 @@ export default function Home() {
                {stories.map((story) => (
                  <CarouselItem key={story.id} className="md:basis-1/2 lg:basis-1/3 pl-4"> {/* Adjust basis and add padding */}
                    <div className="p-1 h-full">
-                     <Card className="flex flex-col h-full overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-card rounded-xl border border-border/50">
-                      <div className="relative w-full h-48">
+                     <Card className="flex flex-col h-full overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-card rounded-xl border border-border/50 group">
+                      <div className="relative w-full h-48 overflow-hidden">
                          <Image
                             src={story.image}
                             alt={`Preview image for story titled: ${story.title}`} // Descriptive alt text
                             fill // Use fill layout
                             style={{objectFit:"cover"}} // Ensure image covers the area
-                            className="transition-transform duration-500 hover:scale-105"
+                            className="transition-transform duration-500 group-hover:scale-105"
                             loading="lazy" // Lazy load carousel images
                          />
                       </div>
                        <CardHeader className="pt-4 pb-2">
-                         <CardTitle className="text-lg font-serif tracking-tight">{story.title}</CardTitle>
+                         <CardTitle className="text-lg font-serif tracking-tight">
+                             <Link href="/resources" className="focus:outline-none stretched-link group-hover:text-primary transition-colors">
+                                 <span className="absolute inset-0" aria-hidden="true"></span>
+                                 {story.title}
+                             </Link>
+                         </CardTitle>
                          <CardDescription className="text-xs text-muted-foreground font-inter pt-1">By {story.name}</CardDescription>
                        </CardHeader>
                        <CardContent className="flex-grow pb-2">
                          <p className="text-sm text-foreground/80 line-clamp-3 font-inter">{story.excerpt}</p>
                        </CardContent>
                         <CardContent className="pb-4">
-                           <Button asChild variant="secondary" size="sm" className="w-full hover:bg-secondary/90 transition-colors">
-                              <Link href="/resources">Read Full Story</Link>
+                           <Button asChild variant="secondary" size="sm" className="w-full hover:bg-secondary/90 transition-colors relative z-10">
+                              {/* Link is technically handled by the CardTitle, but this provides a clear visual CTA */}
+                              <Link href="/resources" tabIndex={-1}>Read Full Story</Link>
                            </Button>
                        </CardContent>
                      </Card>
@@ -185,8 +197,8 @@ export default function Home() {
                ))}
              </CarouselContent>
              {/* Adjust position and style of prev/next buttons */}
-             <CarouselPrevious className="absolute left-[-15px] sm:left-[-25px] top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border shadow-md" />
-             <CarouselNext className="absolute right-[-15px] sm:right-[-25px] top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border shadow-md" />
+             <CarouselPrevious className="absolute left-[-15px] sm:left-[-25px] top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border shadow-md z-10" />
+             <CarouselNext className="absolute right-[-15px] sm:right-[-25px] top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border shadow-md z-10" />
            </Carousel>
             <div className="text-center mt-10">
                  <Button asChild variant="outline" size="lg" className="hover:bg-accent/50 transition-colors">
@@ -224,3 +236,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

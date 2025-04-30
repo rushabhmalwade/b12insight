@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-// import type { Metadata } from 'next'; // Metadata cannot be exported from client components
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -91,37 +90,37 @@ export default function ContactPage() {
       id: 'faq1',
       question: 'What is Vitamin B12 and why is it important?',
       answer:
-        'Vitamin B12 (cobalamin) is a vital nutrient for nerve function, DNA synthesis, and red blood cell formation. Deficiency can cause neurological problems, fatigue, anemia, and more. Learn details on our [About B12 page](/about-b12).', // Added link
+        'Vitamin B12 (cobalamin) is a vital nutrient for nerve function, DNA synthesis, and red blood cell formation. Deficiency can cause neurological problems, fatigue, anemia, and more. Learn details on our <a href="/about-b12" class="text-primary hover:underline font-medium">About B12 page</a>.', // Added link using standard anchor
     },
     {
       id: 'faq2',
       question: 'What are the common sources of Vitamin B12?',
       answer:
-        'Primary sources include meat, fish, poultry, eggs, and dairy products. For vegans/vegetarians, reliable sources are fortified foods (like nutritional yeast, cereals, plant milks) or supplements. Explore our [Sources page](/sources-of-b12) for a comprehensive list.', // Added link
+        'Primary sources include meat, fish, poultry, eggs, and dairy products. For vegans/vegetarians, reliable sources are fortified foods (like nutritional yeast, cereals, plant milks) or supplements. Explore our <a href="/sources-of-b12" class="text-primary hover:underline font-medium">Sources page</a> for a comprehensive list.', // Added link
     },
     {
       id: 'faq3',
       question: 'What are the symptoms of Vitamin B12 deficiency?',
       answer:
-        'Symptoms are diverse and can include fatigue, weakness, numbness/tingling, balance issues, memory problems ("brain fog"), pale skin, shortness of breath, depression, anxiety, and mouth sores. Use our [Symptoms page](/b12-deficiency-symptoms) for details and the AI checker.', // Added link
+        'Symptoms are diverse and can include fatigue, weakness, numbness/tingling, balance issues, memory problems ("brain fog"), pale skin, shortness of breath, depression, anxiety, and mouth sores. Use our <a href="/b12-deficiency-symptoms" class="text-primary hover:underline font-medium">Symptoms page</a> for details and the AI checker.', // Added link
     },
     {
        id: 'faq4',
       question: 'How is B12 deficiency tested?',
       answer:
-        'Consult your doctor. Common blood tests include Serum B12, Methylmalonic Acid (MMA), and Homocysteine. Active B12 (Holotranscobalamin) is another option. Your doctor will determine the best tests for you. See more on the [Symptoms page](/b12-deficiency-symptoms).', // Added link
+        'Consult your doctor. Common blood tests include Serum B12, Methylmalonic Acid (MMA), and Homocysteine. Active B12 (Holotranscobalamin) is another option. Your doctor will determine the best tests for you. See more on the <a href="/b12-deficiency-symptoms#testing" class="text-primary hover:underline font-medium">Symptoms page</a>.', // Added link
     },
      {
        id: 'faq5',
       question: 'Is the information on B12 Insight medical advice?',
       answer:
-        'No. B12 Insight provides educational information only. It is not a substitute for professional medical advice, diagnosis, or treatment from a qualified healthcare provider. Always consult a doctor or other qualified health professional regarding any medical condition.',
+        'No. B12 Insight provides educational information only. It is not a substitute for professional medical advice, diagnosis, or treatment from a qualified healthcare provider. Always consult a doctor or other qualified health professional regarding any medical condition. Read our full <a href="/legal" class="text-primary hover:underline font-medium">Legal Disclaimer</a>.', // Added link
     },
       {
        id: 'faq6',
       question: 'How does the AI Symptom Assessment work?',
       answer:
-        'Our AI tool analyzes the age, diet, and symptoms you provide against known patterns associated with B12 deficiency to estimate a probability. It\'s an informational tool to encourage discussion with your doctor, not a diagnostic device. Accuracy depends on the information provided.',
+        'Our AI tool analyzes the age, diet, and symptoms you provide against known patterns associated with B12 deficiency to estimate a probability. It\'s an informational tool to encourage discussion with your doctor, not a diagnostic device. Accuracy depends on the information provided. Try it on the <a href="/b12-deficiency-symptoms#symptom-checker" class="text-primary hover:underline font-medium">Symptoms page</a>.', // Added link
     },
   ];
 
@@ -290,9 +289,9 @@ export default function ContactPage() {
                       {faq.question}
                    </AccordionTrigger>
                    {/* Improved styling for answer content */}
-                   <AccordionContent className="text-foreground/85 pt-1 pb-4 text-base leading-relaxed [&_a]:text-primary [&_a:hover]:underline [&_a]:font-medium">
-                     {/* Basic Markdown-like link rendering */}
-                     <span dangerouslySetInnerHTML={{ __html: faq.answer.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>') }} />
+                   <AccordionContent className="text-foreground/85 pt-1 pb-4 text-base leading-relaxed">
+                     {/* Render HTML content safely */}
+                     <span dangerouslySetInnerHTML={{ __html: faq.answer }} />
                    </AccordionContent>
                  </AccordionItem>
                ))}
@@ -319,3 +318,5 @@ export default function ContactPage() {
     </div>
   );
 }
+
+    

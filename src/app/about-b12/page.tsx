@@ -4,10 +4,11 @@ import React from 'react';
 import type { Metadata } from 'next'; // Metadata type - Can be defined here or layout
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { BarChart, ChartTooltip, ChartTooltipContent } from '@tremor/react'; // Using Tremor for charts, import Tooltip components
+import { BarChart } from '@tremor/react'; // Using Tremor for charts, import Tooltip components
 import { BrainCircuit, Dna, HeartPulse, ShieldCheck, Info, Atom, Stethoscope, AlertTriangle } from 'lucide-react'; // Import relevant icons including AlertTriangle
 import { cn } from '@/lib/utils'; // Import cn for conditional classes
 import Image from 'next/image'; // Import Next.js Image
+import Link from 'next/link'; // Import Next.js Link
 
 // Note: Metadata cannot be exported from a 'use client' component.
 // Define page metadata in layout.tsx or parent Server Components if needed.
@@ -22,33 +23,7 @@ const RedBloodCellIcon = () => (
 );
 
 
-// Metadata for this specific page (Exported from Server Component context, e.g., layout.tsx)
-// export const metadata: Metadata = {
-//   title: 'About Vitamin B12 (Cobalamin)',
-//   description: 'Learn about Vitamin B12: what it is, its crucial biological roles (DNA synthesis, nerve health, energy), recommended daily dosages by age, and debunk common myths.',
-//   alternates: {
-//     canonical: '/about-b12',
-//   },
-//   openGraph: {
-//     title: 'About Vitamin B12 (Cobalamin) | B12 Insight',
-//     description: 'Explore the vital functions of Vitamin B12, dosage guidelines, and essential facts.',
-//     url: 'https://b12insight.com/about-b12',
-//     images: [
-//       {
-//         url: 'https://b12insight.com/og-about-b12.png', // Replace with specific OG image for this page
-//         width: 1200,
-//         height: 630,
-//         alt: 'Information about Vitamin B12',
-//       },
-//     ],
-//   },
-//    twitter: {
-//       title: 'About Vitamin B12 (Cobalamin) | B12 Insight',
-//       description: 'Explore the vital functions of Vitamin B12, dosage guidelines, and essential facts.',
-//       images: ['https://b12insight.com/twitter-about-b12.png'], // Replace with specific Twitter image
-//    },
-// };
-
+// Metadata for this specific page is defined in src/app/layout.tsx template
 
 export default function AboutB12Page() {
 
@@ -86,17 +61,17 @@ export default function AboutB12Page() {
     {
       id: 'myth1',
       question: 'Myth: You can get enough B12 from plant-based foods like spirulina or unwashed vegetables.',
-      answer: 'Fact: While some algae and fermented foods contain B12 analogs (inactive forms), they are not reliable sources of active B12 for humans. Trace amounts on unwashed vegetables are insignificant and unreliable. Vegans and most vegetarians need fortified foods or supplements.'
+      answer: <>Fact: While some algae and fermented foods contain B12 analogs (inactive forms), they are not reliable sources of active B12 for humans. Trace amounts on unwashed vegetables are insignificant and unreliable. <Link href="/sources-of-b12" className="text-primary hover:underline font-medium">Vegans</Link> and most vegetarians need <Link href="/sources-of-b12#fortified" className="text-primary hover:underline font-medium">fortified foods or supplements</Link>.</> // Added links
     },
     {
       id: 'myth2',
       question: 'Myth: You can easily overdose on Vitamin B12 supplements.',
-      answer: 'Fact: Vitamin B12 is water-soluble, meaning your body typically excretes excess amounts through urine. There is no established Tolerable Upper Intake Level (UL) due to its very low toxicity risk. However, extremely high doses are unnecessary unless medically advised.'
+      answer: <>Fact: Vitamin B12 is water-soluble, meaning your body typically excretes excess amounts through urine. There is no established Tolerable Upper Intake Level (UL) due to its very low toxicity risk. However, extremely high doses are unnecessary unless medically advised. <Link href="/sources-of-b12#supplements" className="text-primary hover:underline font-medium">Explore supplement types</Link>.</> // Added link
     },
      {
       id: 'myth3',
       question: 'Myth: B12 deficiency only affects the elderly or strict vegans.',
-      answer: 'Fact: While risk increases with age (due to reduced absorption) and in vegans, B12 deficiency can affect anyone, including meat-eaters with absorption issues (like pernicious anemia, Crohn\'s, celiac disease, post-bariatric surgery) or those on certain medications (like Metformin, PPIs).'
+      answer: <>Fact: While risk increases with age (due to reduced absorption) and in vegans, B12 deficiency can affect anyone, including meat-eaters with <Link href="/b12-deficiency-symptoms#risk-groups" className="text-primary hover:underline font-medium">absorption issues</Link> (like pernicious anemia, Crohn's, celiac disease, post-bariatric surgery) or those on certain medications (like Metformin, PPIs).</> // Added link
     },
      {
       id: 'myth4',
@@ -106,7 +81,7 @@ export default function AboutB12Page() {
      {
       id: 'myth5',
       question: 'Myth: If my serum B12 blood test is "normal", I can\'t be deficient.',
-      answer: 'Fact: Standard serum B12 tests measure total B12, including inactive forms. Some people experience deficiency symptoms even within the low-normal range. Functional markers like MMA (Methylmalonic Acid) and Homocysteine can provide a clearer picture of B12 status at the cellular level.'
+      answer: <>Fact: Standard serum B12 tests measure total B12, including inactive forms. Some people experience <Link href="/b12-deficiency-symptoms" className="text-primary hover:underline font-medium">deficiency symptoms</Link> even within the low-normal range. Functional markers like MMA (Methylmalonic Acid) and Homocysteine can provide a clearer picture of B12 status at the cellular level. <Link href="/b12-deficiency-symptoms#testing" className="text-primary hover:underline font-medium">Learn about testing</Link>.</> // Added links
     }
   ];
 
@@ -131,14 +106,14 @@ export default function AboutB12Page() {
                 Vitamin B12, also known as <strong className="font-semibold text-cyan-700 dark:text-cyan-400">cobalamin</strong>, is a vital water-soluble vitamin essential for numerous bodily functions. First identified in the mid-20th century as the factor curing pernicious anemia, it stands out due to its complex structure containing the mineral <strong className="font-semibold text-gray-600 dark:text-gray-400">cobalt</strong>.
               </p>
                <p>
-                It's indispensable for maintaining healthy <strong className="font-semibold text-red-600 dark:text-red-400">nerve tissue</strong>, optimal <strong className="font-semibold text-purple-600 dark:text-purple-400">brain function</strong>, and the production of <strong className="font-semibold text-rose-600 dark:text-rose-400">red blood cells</strong> and <strong className="font-semibold text-blue-600 dark:text-blue-400">DNA</strong>. Unlike most vitamins humans need, B12 is synthesized almost exclusively by microorganisms like bacteria and archaea found in soil and the gut of animals.
+                It's indispensable for maintaining healthy <strong className="font-semibold text-red-600 dark:text-red-400">nerve tissue</strong>, optimal <strong className="font-semibold text-purple-600 dark:text-purple-400">brain function</strong>, and the production of <strong className="font-semibold text-rose-600 dark:text-rose-400">red blood cells</strong> and <strong className="font-semibold text-blue-600 dark:text-blue-400">DNA</strong>. Unlike most vitamins humans need, B12 is synthesized almost exclusively by microorganisms like bacteria and archaea found in soil and the gut of animals. Explore the <Link href="/sources-of-b12" className="text-primary hover:underline font-medium">natural sources of B12</Link>.
               </p>
                <div>
                   <h3 className="font-semibold text-xl mb-3 text-primary/90 font-serif">Common Forms:</h3>
                   <ul className="space-y-2 text-foreground/85">
                       <li className="flex items-start gap-2">
                          <Atom className="w-5 h-5 text-cyan-600 dark:text-cyan-400 mt-1 flex-shrink-0" />
-                         <span><strong className="text-cyan-700 dark:text-cyan-400">Cyanocobalamin:</strong> A stable, synthetic form commonly used in supplements and food fortification. Requires bodily conversion to active forms.</span>
+                         <span><strong className="text-cyan-700 dark:text-cyan-400">Cyanocobalamin:</strong> A stable, synthetic form commonly used in <Link href="/sources-of-b12#supplements" className="text-primary hover:underline font-medium">supplements</Link> and food fortification. Requires bodily conversion to active forms.</span>
                       </li>
                       <li className="flex items-start gap-2">
                          <Atom className="w-5 h-5 text-green-600 dark:text-green-400 mt-1 flex-shrink-0" />
@@ -150,7 +125,7 @@ export default function AboutB12Page() {
                        </li>
                       <li className="flex items-start gap-2">
                            <Stethoscope className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mt-1 flex-shrink-0" />
-                         <span><strong className="text-indigo-700 dark:text-indigo-400">Hydroxocobalamin:</strong> Often used in injectable B12 treatments due to its longer retention time in the body. Must be converted to active forms.</span>
+                         <span><strong className="text-indigo-700 dark:text-indigo-400">Hydroxocobalamin:</strong> Often used in <Link href="/sources-of-b12#supplements" className="text-primary hover:underline font-medium">injectable B12 treatments</Link> due to its longer retention time in the body. Must be converted to active forms.</span>
                        </li>
                   </ul>
                </div>
@@ -179,10 +154,10 @@ export default function AboutB12Page() {
           {[
              { title: 'DNA Synthesis & Repair', icon: Dna, color: 'text-blue-600 dark:text-blue-400', bgColor: 'bg-blue-50 dark:bg-blue-900/30', description: 'Acts as a vital coenzyme for creating and repairing DNA, the blueprint for all cells, crucial for cell growth and division.' },
              { title: 'Red Blood Cell Formation', icon: RedBloodCellIcon, color: 'text-red-600 dark:text-red-400', bgColor: 'bg-red-50 dark:bg-red-900/30', description: 'Works synergistically with folate (B9) to produce healthy red blood cells, essential for oxygen transport and preventing megaloblastic anemia.' },
-             { title: 'Nerve Health & Function', icon: BrainCircuit, color: 'text-purple-600 dark:text-purple-400', bgColor: 'bg-purple-50 dark:bg-purple-900/30', description: 'Critical for maintaining the myelin sheath, the protective covering around nerves, ensuring proper nerve signal transmission and supporting cognitive function.' },
-             { title: 'Energy Metabolism', icon: HeartPulse, color: 'text-rose-600 dark:text-rose-400', bgColor: 'bg-rose-50 dark:bg-rose-900/30', description: 'Plays a key role in converting carbohydrates into glucose and metabolizing fats and proteins, helping the body produce energy and reduce fatigue.' },
+             { title: 'Nerve Health & Function', icon: BrainCircuit, color: 'text-purple-600 dark:text-purple-400', bgColor: 'bg-purple-50 dark:bg-purple-900/30', description: <>Critical for maintaining the myelin sheath, the protective covering around nerves, ensuring proper nerve signal transmission and supporting cognitive function. Deficiency can lead to <Link href="/b12-deficiency-symptoms#neurological" className="text-primary hover:underline font-medium">neurological symptoms</Link>.</> }, // Added link
+             { title: 'Energy Metabolism', icon: HeartPulse, color: 'text-rose-600 dark:text-rose-400', bgColor: 'bg-rose-50 dark:bg-rose-900/30', description: <>Plays a key role in converting carbohydrates into glucose and metabolizing fats and proteins, helping the body produce energy and reduce <Link href="/b12-deficiency-symptoms#physical" className="text-primary hover:underline font-medium">fatigue</Link>.</> }, // Added link
              { title: 'Homocysteine Regulation', icon: ShieldCheck, color: 'text-teal-600 dark:text-teal-400', bgColor: 'bg-teal-50 dark:bg-teal-900/30', description: 'Helps convert homocysteine into methionine. Elevated homocysteine levels are linked to increased risk of cardiovascular disease.' },
-             { title: 'Mood & Mental Well-being', icon: ShieldCheck, color: 'text-yellow-600 dark:text-yellow-400', bgColor: 'bg-yellow-50 dark:bg-yellow-900/30', description: 'Contributes to the synthesis of neurotransmitters like serotonin and dopamine, influencing mood regulation. Deficiency is linked to depression and anxiety.' }
+             { title: 'Mood & Mental Well-being', icon: ShieldCheck, color: 'text-yellow-600 dark:text-yellow-400', bgColor: 'bg-yellow-50 dark:bg-yellow-900/30', description: <>Contributes to the synthesis of neurotransmitters like serotonin and dopamine, influencing mood regulation. Deficiency is linked to <Link href="/b12-deficiency-symptoms#psychological" className="text-primary hover:underline font-medium">depression and anxiety</Link>.</> } // Added link
            ].map((item, index) => (
              <Card key={index} className={cn("shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 rounded-xl border border-border/50 overflow-hidden", item.bgColor)}>
                 <CardHeader className="items-center text-center pt-6 pb-3">
@@ -224,7 +199,7 @@ export default function AboutB12Page() {
              />
              <p className="text-xs text-muted-foreground mt-6 pt-4 border-t border-dashed">
                <Info className="w-3 h-3 inline mr-1" />
-               Note: RDA (Recommended Dietary Allowance) values represent the average daily intake sufficient for nearly all (97–98%) healthy individuals. Needs can increase due to factors like pregnancy, certain medical conditions, or medications.
+               Note: RDA (Recommended Dietary Allowance) values represent the average daily intake sufficient for nearly all (97–98%) healthy individuals. Needs can increase due to factors like pregnancy, certain <Link href="/b12-deficiency-symptoms#risk-groups" className="text-primary hover:underline font-medium">medical conditions</Link>, or medications.
              </p>
           </CardContent>
         </Card>
@@ -247,7 +222,7 @@ export default function AboutB12Page() {
                        </AccordionTrigger>
                        <AccordionContent className="text-foreground/80 pt-1 pb-4 text-base leading-relaxed">
                          <span className="font-semibold text-green-700 dark:text-green-400 mr-1">Fact:</span>
-                          {item.answer.replace('Fact: ', '')}
+                          {item.answer}
                        </AccordionContent>
                      </AccordionItem>
                    ))}
@@ -264,7 +239,7 @@ export default function AboutB12Page() {
               <div>
                  <h3 className="font-semibold text-amber-700 dark:text-amber-400">Important Disclaimer</h3>
                  <p className="text-sm text-amber-800/90 dark:text-amber-300/90 mt-1">
-                    The information provided on this page is for educational and informational purposes only. It does not constitute medical advice and should not be used as a substitute for consultation with a qualified healthcare professional. Always seek professional medical advice for any health concerns or before making decisions about your health or treatment.
+                    The information provided on this page is for educational and informational purposes only. It does not constitute medical advice and should not be used as a substitute for consultation with a qualified healthcare professional. Always seek professional medical advice for any health concerns or before making decisions about your health or treatment. See our full <Link href="/legal" className="text-primary hover:underline font-medium">Legal Disclaimer</Link>.
                  </p>
               </div>
             </div>
@@ -274,3 +249,5 @@ export default function AboutB12Page() {
     </div>
   );
 }
+
+    
