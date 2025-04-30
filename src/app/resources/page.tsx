@@ -5,8 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { BookOpen, FileText, Download, Video, Search, Filter, XCircle, Loader2 } from 'lucide-react'; // Added XCircle, Loader2
+import { BookOpen, FileText, Download, Video, Search, Filter, XCircle, Loader2, AlertTriangle } from 'lucide-react'; // Added XCircle, Loader2, AlertTriangle
 import Image from 'next/image';
+import Link from 'next/link'; // Import Link component
 import { cn } from '@/lib/utils'; // Import cn
 
 // Placeholder data (Consider fetching this from a CMS or API)
