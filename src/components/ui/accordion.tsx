@@ -14,8 +14,8 @@ const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    // Removed default border-b, apply border within specific usage if needed or style based on parent Accordion
-    className={cn("", className)}
+    // Add border, shadow, and rounded corners to each item
+    className={cn("border rounded-lg shadow-sm mb-2 bg-card overflow-hidden", className)}
     {...props}
   />
 ))
@@ -29,7 +29,7 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180", // Keep existing rotation
+        "flex flex-1 items-center justify-between py-4 px-5 font-medium transition-all hover:bg-muted/50 [&[data-state=open]>svg]:rotate-180", // Adjusted padding, removed underline
         className
       )}
       {...props}
@@ -56,7 +56,7 @@ const AccordionContent = React.forwardRef<
     {...props}
   >
     {/* Adjusted padding for content */}
-    <div className={cn("pb-4 pt-1", className)}>{children}</div>
+    <div className={cn("px-5 pb-4 pt-1", className)}>{children}</div> {/* Adjusted padding */}
   </AccordionPrimitive.Content>
 ))
 

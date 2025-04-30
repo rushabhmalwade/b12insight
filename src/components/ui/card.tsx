@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm", // Default shadow-sm
+      "rounded-lg border bg-card text-card-foreground shadow-md transition-shadow duration-300 hover:shadow-lg", // Changed default shadow-sm to shadow-md, added hover:shadow-lg
       // Add backdrop-blur possibility via className e.g., className="backdrop-blur-sm"
       className
     )}
