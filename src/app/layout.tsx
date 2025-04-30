@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
-import { Manrope, Playfair_Display, Inter, Roboto_Mono } from 'next/font/google'; // Import Playfair Display, Inter, and Roboto Mono
+import { Manrope, Playfair_Display, Inter } from 'next/font/google'; // Import Playfair Display and Inter
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/toaster"; // Import Toaster
 import { Header } from '@/components/layout/header'; // Import Header
 
-// Configure Manrope font
-const manrope = Manrope({
-  variable: '--font-manrope', // Use --font-manrope
+// Configure Inter font for body text (primary font)
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
+  display: 'swap', // Improve font loading
   weight: ['400', '500', '600', '700'], // Add necessary weights
 });
 
@@ -16,21 +17,16 @@ const manrope = Manrope({
 const playfairDisplay = Playfair_Display({
   variable: '--font-playfair-display',
   subsets: ['latin'],
+  display: 'swap',
   weight: ['400', '700'], // Add necessary weights
 });
 
-// Configure Inter font for body text
-const inter = Inter({
-  variable: '--font-inter',
+// Configure Manrope font (optional/secondary)
+const manrope = Manrope({
+  variable: '--font-manrope',
   subsets: ['latin'],
-  weight: ['400', '500', '600'], // Add necessary weights
-});
-
-// Configure Roboto Mono font for monospace text
-const robotoMono = Roboto_Mono({
-  variable: '--font-mono',
-  subsets: ['latin'],
-  weight: ['400', '500', '700'], // Add necessary weights
+  display: 'swap',
+  weight: ['400', '500', '600', '700'], // Add necessary weights
 });
 
 
@@ -48,16 +44,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          manrope.variable, // Apply Manrope font variable (can be default)
+          'min-h-screen bg-background font-sans antialiased', // Use Tailwind's font-sans which defaults to Inter now
+          inter.variable, // Apply Inter variable
           playfairDisplay.variable, // Apply Playfair Display variable
-          inter.variable, // Apply Inter variable (can be default body font)
-          robotoMono.variable // Apply Roboto Mono variable
+          manrope.variable // Apply Manrope variable (available for specific use)
         )}
-        suppressHydrationWarning={true} // Add suppressHydrationWarning here as well
+        // Remove suppressHydrationWarning from body, keep only on html
       >
         <Header /> {/* Add Header */}
-        <main className="pt-8 pb-16"> {/* Adjust padding for main content */}
+        {/* Increased top padding for more space below header, adjusted bottom padding */}
+        <main className="pt-12 pb-20 md:pt-16">
           {children}
         </main>
         <Toaster /> {/* Add Toaster */}

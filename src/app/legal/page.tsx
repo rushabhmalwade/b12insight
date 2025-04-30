@@ -1,199 +1,216 @@
+'use client'; // Required for Accordion
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ShieldAlert, Cookie, FileText } from 'lucide-react'; // Added icons
+import { ShieldAlert, Cookie, FileText, AlertTriangle, ChevronsUpDown } from 'lucide-react'; // Added icons
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'; // Import Accordion components
+import { Button } from '@/components/ui/button'; // For potential "Back to Top"
+import { useState, useEffect } from 'react'; // For Back to Top button visibility
 
 export default function LegalPage() {
+   const [showBackToTop, setShowBackToTop] = useState(false);
+
+   // Handle scroll listener for Back to Top button
+   useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) { // Show button after scrolling 300px
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll); // Cleanup listener
+  }, []);
+
+   const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Placeholder Date - Replace with actual last updated date
+  const lastUpdatedDate = "October 26, 2023";
+
+
   return (
-    <div className="container mx-auto px-4 py-8 space-y-12 font-inter">
-      <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-8 text-center">Legal Information</h1>
+    <div className="container mx-auto px-4 py-12 md:py-16 space-y-12 md:space-y-16 font-inter relative">
+      <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-10 md:mb-12 text-center tracking-tight animate-fade-in">
+         Legal Information & Policies
+      </h1>
 
       {/* Medical Disclaimer */}
-      <Card className="border-destructive/50 shadow-md bg-destructive/5">
-        <CardHeader>
-          <CardTitle className="text-2xl font-serif text-destructive flex items-center gap-2">
-            <ShieldAlert className="w-6 h-6" /> Medical Disclaimer
+      <Card className="border-2 border-destructive/50 shadow-lg bg-destructive/5 rounded-xl animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <CardHeader className="p-6">
+          <CardTitle className="text-2xl md:text-3xl font-serif text-destructive flex items-center gap-3 tracking-tight">
+            <ShieldAlert className="w-7 h-7" /> Medical Disclaimer
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-6 pb-6 space-y-3 text-base">
           <p className="font-semibold text-destructive/90">
-            The information provided on B12 Insight, including text, graphics, images, and other material, is for informational purposes only and does not constitute medical advice.
+            The information provided on B12 Insight, including text, graphics, images, AI assessments, and other material, is for informational and educational purposes only. It does not constitute medical advice.
           </p>
-          <p className="mt-2 text-foreground/80">
-            The content is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition or treatment and before undertaking a new health care regimen.
+          <p className="text-foreground/80">
+            This website's content is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition or treatment options.
           </p>
-          <p className="mt-2 text-foreground/80">
-            Never disregard professional medical advice or delay in seeking it because of something you have read on this website. Reliance on any information provided by B12 Insight is solely at your own risk.
+          <p className="text-foreground/80">
+            Never disregard professional medical advice or delay in seeking it because of something you have read or interacted with on this website. Reliance on any information provided by B12 Insight is solely at your own risk. If you think you may have a medical emergency, call your doctor or local emergency number immediately.
           </p>
         </CardContent>
       </Card>
 
-      {/* Terms of Service */}
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl font-serif text-primary flex items-center gap-2">
-            <FileText className="w-6 h-6" /> Terms of Service
-           </CardTitle>
-           <CardDescription>Last updated: [Date]</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4 text-foreground/90">
-          <p>
-            Welcome to B12 Insight! These Terms of Service ("Terms") govern your use of our website located at [Your Website URL] (the "Site") and any related services provided by B12 Insight.
-            By accessing or using our Site, you agree to comply with and be bound by these Terms.
-          </p>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">1. Acceptance of Terms</h3>
-            <p>
-              By using B12 Insight, you confirm that you have read, understood, and agree to be bound by these Terms, our Privacy Policy, and Cookie Policy. If you do not agree with any part of these terms, you must not use our Site.
-            </p>
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">2. Use License</h3>
-             <p>
-               Permission is granted to temporarily download one copy of the materials (information or software) on B12 Insight's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license, you may not: modify or copy the materials; use the materials for any commercial purpose, or for any public display (commercial or non-commercial); attempt to decompile or reverse engineer any software contained on B12 Insight's website; remove any copyright or other proprietary notations from the materials; or transfer the materials to another person or "mirror" the materials on any other server.
-            </p>
-             <p className="mt-2">This license shall automatically terminate if you violate any of these restrictions and may be terminated by B12 Insight at any time.</p>
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">3. Intellectual Property</h3>
-            <p>
-              All content, design, graphics, compilation, and other matters related to the Site are protected under applicable copyrights, trademarks, and other proprietary (including but not limited to intellectual property) rights. The copying, redistribution, use, or publication by you of any such matters or any part of the Site is strictly prohibited.
-            </p>
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">4. Disclaimer</h3>
-            <p>
-              The materials on B12 Insight's website are provided on an 'as is' basis. B12 Insight makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, B12 Insight does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site. <strong className="font-semibold">Refer to our Medical Disclaimer for health-related information.</strong>
-            </p>
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">5. Limitations</h3>
-            <p>
-              In no event shall B12 Insight or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on B12 Insight's website, even if B12 Insight or a B12 Insight authorized representative has been notified orally or in writing of the possibility of such damage.
-            </p>
-          </section>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">6. Governing Law</h3>
-            <p>
-              These terms and conditions are governed by and construed in accordance with the laws of [Your Jurisdiction, e.g., State of California, USA] and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.
-            </p>
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">7. Modifications</h3>
-            <p>
-              B12 Insight may revise these Terms of Service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these Terms of Service.
-            </p>
-          </section>
-        </CardContent>
-      </Card>
+      {/* Main Policies Accordion */}
+       <Card className="shadow-xl rounded-xl border border-border/50 bg-card/90 backdrop-blur-sm animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <CardContent className="p-6 md:p-8">
+              <Accordion type="multiple" className="w-full space-y-4">
 
-      {/* Privacy Policy */}
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl font-serif text-primary flex items-center gap-2">
-            <FileText className="w-6 h-6" /> Privacy Policy
-           </CardTitle>
-           <CardDescription>Last updated: [Date]</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4 text-foreground/90">
-          <p>
-            Your privacy is important to us. This Privacy Policy explains how B12 Insight collects, uses, discloses, and safeguards your information when you visit our Site.
-          </p>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">1. Information We Collect</h3>
-            <p>
-              We may collect personal information that you voluntarily provide to us, such as your name and email address when you subscribe to a newsletter or use the contact form. We may also automatically collect certain information when you visit the Site, such as your IP address, browser type, operating system, access times, and the pages you have viewed directly before and after accessing the Site (Usage Data).
-            </p>
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">2. Use of Your Information</h3>
-            <p>
-              Having accurate information permits us to provide you with a smooth, efficient, and customized experience. Specifically, we may use information collected about you via the Site to: send you a newsletter, respond to your inquiries, monitor and analyze usage and trends to improve your experience with the Site, and perform other business activities as needed.
-            </p>
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">3. Disclosure of Your Information</h3>
-            <p>
-              We do not sell, trade, rent, or otherwise transfer your personally identifiable information to outside parties unless we provide users with advance notice. This does not include website hosting partners and other parties who assist us in operating our website, conducting our business, or serving our users, so long as those parties agree to keep this information confidential. We may also release information when its release is appropriate to comply with the law, enforce our site policies, or protect ours or others' rights, property, or safety.
-            </p>
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">4. Tracking Technologies (Cookies)</h3>
-            <p>
-              We use cookies and similar tracking technologies to track the activity on our Site and hold certain information. Please refer to our <a href="#cookie-policy" className="text-primary hover:underline font-medium">Cookie Policy</a> for more details.
-            </p>
-          </section>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">5. Data Security</h3>
-            <p>
-              We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse.
-            </p>
-          </section>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">6. Your Rights</h3>
-            <p>
-              Depending on your location, you may have certain rights regarding your personal information, such as the right to access, correct, or delete your data. If you wish to exercise these rights, please contact us using the contact information provided below.
-            </p>
-          </section>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">7. Contact Us</h3>
-            <p>
-              If you have questions or comments about this Privacy Policy, please contact us at:
-              <a href="mailto:privacy@b12insight.com" className="text-primary hover:underline font-medium ml-1">privacy@b12insight.com</a>.
-            </p>
-          </section>
-        </CardContent>
-      </Card>
+                {/* Terms of Service */}
+                <AccordionItem value="terms" className="border px-4 rounded-lg bg-background/50 shadow-sm">
+                  <AccordionTrigger className="text-left font-serif text-xl md:text-2xl text-primary hover:text-primary/80 transition-colors py-4 [&[data-state=open]>svg]:text-primary [&[data-state=open]>svg]:rotate-180">
+                     <span className="flex items-center gap-3"><FileText className="w-6 h-6" /> Terms of Service</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-2 pb-6 text-foreground/85 text-base leading-relaxed space-y-4">
+                    <p className="text-sm text-muted-foreground italic">Last updated: {lastUpdatedDate}</p>
+                    <p>
+                      Welcome to B12 Insight! These Terms of Service ("Terms") govern your access to and use of our website located at [Your Website URL] (the "Site") and any associated services provided by B12 Insight (collectively, the "Service"). By accessing or using our Service, you agree to be bound by these Terms and our Privacy Policy.
+                    </p>
+                     {/* Use nested structure or clear headings for readability */}
+                    <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">1. Acceptance & Use License</h3>
+                      <p>
+                        By using B12 Insight, you confirm you have read, understood, and agree to these Terms. We grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service for personal, non-commercial purposes, subject to these Terms. You may not modify, copy, distribute, sell, or exploit any content or software from the Site without express permission.
+                      </p>
+                    </section>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">2. Intellectual Property</h3>
+                      <p>
+                        All content, features, and functionality on the Site, including text, graphics, logos, icons, images, and software, are the exclusive property of B12 Insight or its licensors and are protected by international copyright, trademark, and other intellectual property laws.
+                      </p>
+                    </section>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">3. Disclaimers</h3>
+                      <p>
+                        The Service is provided on an "AS IS" and "AS AVAILABLE" basis. B12 Insight makes no warranties, express or implied, regarding the accuracy, reliability, or completeness of the content. Use of the Service is at your own risk. <strong className="font-medium">Refer explicitly to our Medical Disclaimer above regarding health information.</strong>
+                      </p>
+                    </section>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">4. Limitation of Liability</h3>
+                      <p>
+                        In no event shall B12 Insight, its directors, employees, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your use of, or inability to use, the Service.
+                      </p>
+                    </section>
+                    {/* Add other sections like User Conduct, Termination, Governing Law, Changes to Terms */}
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">5. Governing Law & Modifications</h3>
+                      <p>
+                        These Terms are governed by the laws of [Your Jurisdiction, e.g., State of California, USA], without regard to conflict of law principles. B12 Insight reserves the right to modify these Terms at any time. We will notify users of significant changes by posting the new Terms on the Site. Your continued use after changes constitutes acceptance.
+                      </p>
+                    </section>
+                  </AccordionContent>
+                </AccordionItem>
 
-      {/* Cookie Policy */}
-      <Card id="cookie-policy" className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl font-serif text-primary flex items-center gap-2">
-             <Cookie className="w-6 h-6" /> Cookie Policy
-           </CardTitle>
-           <CardDescription>Last updated: [Date]</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4 text-foreground/90">
-          <p>
-            This Cookie Policy explains what cookies are and how B12 Insight uses them on our Site. You should read this policy so you can understand what type of cookies we use, the information we collect using cookies and how that information is used.
-          </p>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">1. What Are Cookies?</h3>
-            <p>
-              Cookies are small text files that are stored on your browser or device by websites, apps, online media, and advertisements. They are widely used to make websites work, or work more efficiently, as well as to provide information to the owners of the site.
-            </p>
-          </section>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">2. How We Use Cookies</h3>
-            <p>
-              We use cookies for several purposes, including:
-            </p>
-             <ul className="list-disc list-inside space-y-1 pl-4">
-               <li><strong>Essential Cookies:</strong> These are necessary for the Site to function and cannot be switched off in our systems.</li>
-               <li><strong>Performance and Analytics Cookies:</strong> These allow us to count visits and traffic sources so we can measure and improve the performance of our Site. They help us know which pages are the most and least popular and see how visitors move around the Site. (e.g., Google Analytics)</li>
-               <li><strong>Functionality Cookies:</strong> These enable the website to provide enhanced functionality and personalisation.</li>
-                <li><strong>Advertising/Targeting Cookies:</strong> These may be set through our site by our advertising partners to build a profile of your interests and show you relevant adverts on other sites. (We currently do not use these, but will update this policy if we do).</li>
-             </ul>
-          </section>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">3. Your Choices Regarding Cookies</h3>
-            <p>
-              Most web browsers allow some control of most cookies through the browser settings. You can set your browser to refuse all or some browser cookies, or to alert you when websites set or access cookies. If you disable or refuse cookies, please note that some parts of this Site may become inaccessible or not function properly.
-            </p>
-             <p className="mt-2">
-                To find out more about cookies, including how to see what cookies have been set, visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">www.aboutcookies.org</a> or <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">www.allaboutcookies.org</a>.
-             </p>
-          </section>
-           <section>
-            <h3 className="text-lg font-semibold mt-4 mb-2 text-primary/90">4. Changes to This Cookie Policy</h3>
-            <p>
-              We may update this Cookie Policy from time to time. We will notify you of any changes by posting the new Cookie Policy on this page.
-            </p>
-          </section>
-        </CardContent>
-      </Card>
+                {/* Privacy Policy */}
+                 <AccordionItem value="privacy" className="border px-4 rounded-lg bg-background/50 shadow-sm">
+                   <AccordionTrigger className="text-left font-serif text-xl md:text-2xl text-primary hover:text-primary/80 transition-colors py-4 [&[data-state=open]>svg]:text-primary [&[data-state=open]>svg]:rotate-180">
+                     <span className="flex items-center gap-3"><FileText className="w-6 h-6" /> Privacy Policy</span>
+                  </AccordionTrigger>
+                   <AccordionContent className="pt-2 pb-6 text-foreground/85 text-base leading-relaxed space-y-4">
+                      <p className="text-sm text-muted-foreground italic">Last updated: {lastUpdatedDate}</p>
+                    <p>
+                      Your privacy is critically important to us. This Privacy Policy outlines how B12 Insight collects, uses, discloses, and protects your information when you use our Service.
+                    </p>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">1. Information Collection</h3>
+                      <p>
+                        We collect information you provide directly (e.g., name, email via contact form). We also collect non-personal information automatically (e.g., browser type, IP address, usage data through cookies and analytics tools) to improve the Service. Information submitted to the AI Symptom Assessment tool is processed for the purpose of providing the assessment and improving the tool, but is not used to personally identify you unless explicitly stated otherwise.
+                      </p>
+                    </section>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">2. Use of Information</h3>
+                      <p>
+                        We use collected information to operate and improve the Site, respond to inquiries, send newsletters (if subscribed), analyze usage trends, and ensure security. Anonymized symptom data may be used to enhance the AI tool's accuracy.
+                      </p>
+                    </section>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">3. Information Sharing & Disclosure</h3>
+                      <p>
+                        We do not sell or rent your personal information. We may share information with third-party service providers who assist us (e.g., hosting, analytics), under confidentiality agreements. We may disclose information if required by law or to protect our rights or safety.
+                      </p>
+                    </section>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">4. Data Security & Your Rights</h3>
+                      <p>
+                        We implement reasonable security measures to protect your information but cannot guarantee absolute security. Depending on your jurisdiction, you may have rights to access, correct, or delete your personal data. Contact us at <a href="mailto:privacy@b12insight.com" className="text-primary hover:underline font-medium">privacy@b12insight.com</a> for inquiries.
+                      </p>
+                    </section>
+                     {/* Add sections on Cookies, Children's Privacy, International Transfers, Contact Info */}
+                      <section>
+                        <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">5. Cookies & Tracking</h3>
+                        <p>
+                          We use cookies and similar technologies. Refer to our <a href="#cookie-policy" onClick={(e) => { e.preventDefault(); document.getElementById('cookie-policy-trigger')?.click(); document.getElementById('cookie-policy')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-primary hover:underline font-medium">Cookie Policy</a> below for details.
+                        </p>
+                      </section>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Cookie Policy */}
+                 <AccordionItem value="cookies" id="cookie-policy" className="border px-4 rounded-lg bg-background/50 shadow-sm">
+                   <AccordionTrigger id="cookie-policy-trigger" className="text-left font-serif text-xl md:text-2xl text-primary hover:text-primary/80 transition-colors py-4 [&[data-state=open]>svg]:text-primary [&[data-state=open]>svg]:rotate-180">
+                     <span className="flex items-center gap-3"><Cookie className="w-6 h-6" /> Cookie Policy</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-2 pb-6 text-foreground/85 text-base leading-relaxed space-y-4">
+                      <p className="text-sm text-muted-foreground italic">Last updated: {lastUpdatedDate}</p>
+                     <p>
+                        This Cookie Policy explains how B12 Insight uses cookies and similar technologies on our Site.
+                    </p>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">1. What Are Cookies?</h3>
+                      <p>
+                        Cookies are small text files stored on your device when you visit websites. They help sites remember information about your visit, like preferred language and other settings, making your next visit easier and the site more useful.
+                      </p>
+                    </section>
+                     <section>
+                      <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">2. How We Use Cookies</h3>
+                      <p>
+                        We use cookies for various purposes:
+                      </p>
+                       <ul className="list-disc list-inside space-y-1 pl-4">
+                         <li><strong>Essential Cookies:</strong> Necessary for the Site to function (e.g., remembering session state).</li>
+                         <li><strong>Performance & Analytics Cookies:</strong> Help us understand how visitors interact with the Site (e.g., Google Analytics) by collecting anonymous information.</li>
+                         <li><strong>Functionality Cookies:</strong> Remember choices you make (e.g., theme preference) to provide enhanced features.</li>
+                         {/* <li><strong>Advertising/Targeting Cookies:</strong> (We currently do not use these, but will update this policy if we do).</li> */}
+                       </ul>
+                    </section>
+                    <section>
+                        <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">3. Your Choices</h3>
+                        <p>
+                            You can control and manage cookies through your browser settings. Most browsers allow you to refuse cookies or alert you when cookies are being sent. However, disabling essential cookies may affect the functionality of the Site. For more information, visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">www.aboutcookies.org</a>.
+                        </p>
+                     </section>
+                     <section>
+                        <h3 className="font-mono text-lg font-semibold mt-4 mb-2 text-primary/90">4. Policy Updates</h3>
+                        <p>
+                            We may update this Cookie Policy periodically. Changes will be posted on this page with an updated revision date.
+                        </p>
+                     </section>
+                  </AccordionContent>
+                </AccordionItem>
+
+              </Accordion>
+            </CardContent>
+       </Card>
+
+       {/* Back to Top Button */}
+       <Button
+         onClick={scrollToTop}
+         className={cn(
+           "fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full p-0 shadow-lg transition-opacity duration-300",
+           showBackToTop ? "opacity-100" : "opacity-0 pointer-events-none"
+         )}
+         aria-label="Scroll back to top"
+         variant="secondary" // Or primary
+       >
+         <ChevronsUpDown className="h-6 w-6 transform -rotate-90" />
+       </Button>
 
     </div>
   );
 }
-
-    

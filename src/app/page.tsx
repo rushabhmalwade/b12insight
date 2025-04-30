@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -6,10 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Heart, Microscope, PencilLine, Search, Users } from 'lucide-react';
+import { Heart, Microscope, PencilLine, Search, Users, CheckCircle, Brain, Droplet, Leaf } from 'lucide-react'; // Added more icons
 import { Separator } from '@/components/ui/separator';
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
 import { useState } from 'react';
+import Image from 'next/image'; // Use Next.js Image component
 
 
 export default function Home() {
@@ -19,10 +19,11 @@ export default function Home() {
    const handleEmailSubmit = (e: React.FormEvent) => {
      e.preventDefault();
      // Basic email validation
-     if (email && email.includes('@')) {
+     if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { // More robust email validation
        toast({
          title: "Subscribed!",
          description: "You'll receive weekly tips and stories.",
+         variant: "default", // Explicitly set default variant
        });
        setEmail(''); // Clear input after submission
      } else {
@@ -36,17 +37,17 @@ export default function Home() {
 
 
   const quickFacts = [
-    { id: 1, stat: 'Up to 15%', description: 'of the general population may have B12 deficiency.' },
-    { id: 2, stat: '40%+', description: 'of vegetarians and 80%+ of vegans may be B12 deficient without supplementation.' },
-    { id: 3, stat: 'Fatigue', description: 'is one of the most common early symptoms.' },
-    { id: 4, stat: 'Nerve Damage', description: 'can occur if deficiency is left untreated long-term.' },
+    { id: 1, stat: 'Up to 15%', description: 'of people in developed countries may have B12 deficiency.', icon: Users },
+    { id: 2, stat: '80%+', description: 'of vegans/vegetarians not supplementing may be deficient.', icon: Leaf },
+    { id: 3, stat: 'Fatigue', description: 'is one of the most common, often overlooked, early symptoms.', icon: Droplet }, // Using Droplet metaphorically for energy level
+    { id: 4, stat: 'Nerve Health', description: 'B12 is crucial for maintaining healthy nerve function.', icon: Brain },
   ];
 
   const features = [
-    { id: 1, icon: Microscope, title: 'Learn About B12', description: 'Understand its crucial role, benefits, and recommended dosages.', href: '/about-b12' }, // Updated href
-    { id: 2, icon: Search, title: 'Identify Symptoms', description: 'Recognize the signs of deficiency, from mild to severe.', href: '/b12-deficiency-symptoms' },
-    { id: 3, icon: PencilLine, title: 'Read Real Stories', description: 'Gain insights from personal journeys of diagnosis and recovery. (Coming Soon)', href: '#' }, // Update href when stories page is ready
-    { id: 4, icon: Users, title: 'Join the Community', description: 'Connect, ask questions, and share experiences with others. (Coming Soon)', href: '#' }, // Update href when community page is ready
+    { id: 1, icon: Microscope, title: 'Learn About B12', description: 'Understand its crucial role, benefits, and recommended dosages.', href: '/about-b12' },
+    { id: 2, icon: Search, title: 'Identify Symptoms', description: 'Recognize the signs of deficiency & use our AI symptom checker.', href: '/b12-deficiency-symptoms#symptom-checker' }, // Link directly to checker
+    { id: 3, icon: PencilLine, title: 'Read Real Stories', description: 'Gain insights from personal journeys of diagnosis and recovery. (Coming Soon)', href: '#' },
+    { id: 4, icon: Users, title: 'Join the Community', description: 'Connect, ask questions, and share experiences with others. (Coming Soon)', href: '#' },
   ];
 
   const stories = [
@@ -54,43 +55,59 @@ export default function Home() {
     { id: 2, title: "Mark's Vegan Challenge", excerpt: "Switching to a vegan diet was great, but I neglected my B12. Here's how I fixed it.", name: "Mark T.", image: "https://picsum.photos/seed/story2/400/300" },
     { id: 3, title: "From Tingling to Thriving", excerpt: "The 'pins and needles' were just the start. Getting diagnosed was the key to feeling normal again.", name: "Emily R.", image: "https://picsum.photos/seed/story3/400/300" },
      { id: 4, title: "Unexpected Diagnosis", excerpt: "I never thought my digestive issues were related to B12. Finding the connection was life-changing.", name: "David L.", image: "https://picsum.photos/seed/story4/400/300" },
+     { id: 5, title: "Elderly Care & B12", excerpt: "Helping my grandmother manage her B12 levels made a huge difference in her energy and mood.", name: "Chloe B.", image: "https://picsum.photos/seed/story5/400/300" },
   ];
 
   return (
-    <div className="space-y-16 md:space-y-24 animate-fade-in">
+    <div className="space-y-20 md:space-y-32 overflow-x-hidden"> {/* Prevent horizontal overflow */}
       {/* Hero Section */}
-      <section className="text-center py-16 md:py-24 bg-gradient-to-br from-background via-secondary/10 to-accent/10 rounded-lg shadow-sm">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-4 animate-fade-in font-serif" style={{ animationDelay: '0.2s' }}>
-          Your Complete Guide to Vitamin B12
-        </h1>
-        <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto mb-8 animate-fade-in font-inter" style={{ animationDelay: '0.4s' }}>
-          From Symptoms to Solutions — Discover, Learn, and Share.
-        </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-          {/* Temporarily remove asChild to debug */}
-          <Button size="lg" className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1">
-            <Link href="/about-b12">Learn About B12</Link>
-          </Button>
-          <Button asChild size="lg" variant="secondary" className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1">
-             <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
-          </Button>
-          <Button asChild size="lg" variant="outline" className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1">
-             <Link href="#">Join Community</Link>
-          </Button>
+      <section className="relative text-center py-20 md:py-32 bg-gradient-to-br from-secondary/30 via-background to-accent/20 overflow-hidden">
+         {/* Optional: Add subtle background pattern or shapes */}
+         <div className="absolute inset-0 opacity-10 dark:opacity-5 [mask-image:radial-gradient(farthest-side_at_top_left,white,transparent)]">
+           {/* Example pattern */}
+           <svg aria-hidden="true" className="absolute inset-x-0 inset-y-[-50%] h-[200%] w-full skew-y-[-18deg] fill-primary/5 stroke-primary/10">
+             <defs>
+               <pattern id="pattern" width="72" height="56" patternUnits="userSpaceOnUse" x="-12" y="4"><path d="M.5 56V.5H72" fill="none"></path></pattern>
+             </defs>
+             <rect width="100%" height="100%" strokeWidth="0" fill="url(#pattern)"></rect>
+           </svg>
+         </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-primary mb-5 animate-fade-in font-serif" style={{ animationDelay: '0.1s' }}>
+            Your Complete Guide to Vitamin B12
+          </h1>
+          <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto mb-10 animate-fade-in font-inter" style={{ animationDelay: '0.3s' }}>
+            From Symptoms to Solutions — Discover, Learn, and Share your B12 journey.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 animate-fade-in" style={{ animationDelay: '0.5s' }}>
+            <Button size="lg" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
+              <Link href="/about-b12">Learn About B12</Link>
+            </Button>
+            <Button size="lg" variant="secondary" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
+               <Link href="/b12-deficiency-symptoms#symptom-checker">Check Symptoms</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
+               <Link href="#">Join Community (Soon)</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* Quick Facts Block */}
-       <section className="container mx-auto px-4 animate-fade-in" style={{ animationDelay: '0.8s' }}>
-          <h2 className="text-3xl font-bold text-center mb-8 text-primary/90 font-serif">B12 Deficiency: Key Facts</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+       <section className="container mx-auto px-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary/90 font-serif tracking-tight">B12 Deficiency: Key Facts</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {quickFacts.map((fact) => (
-              <Card key={fact.id} className="text-center bg-card/80 shadow hover:shadow-md transition-shadow transform hover:-translate-y-1">
-                <CardHeader>
+              <Card key={fact.id} className="text-center bg-card/90 backdrop-blur-sm shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1.5 border border-border/50 rounded-xl">
+                <CardHeader className="items-center pb-2 pt-6">
+                    <div className="p-3 bg-primary/10 rounded-full mb-3 inline-block text-primary">
+                        <fact.icon className="w-7 h-7" />
+                    </div>
                   <CardTitle className="text-4xl font-bold text-primary">{fact.stat}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground font-inter">{fact.description}</p>
+                <CardContent className="pb-6">
+                  <p className="text-muted-foreground font-inter text-sm">{fact.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -98,23 +115,25 @@ export default function Home() {
         </section>
 
       {/* Feature Highlights */}
-      <section className="container mx-auto px-4 animate-fade-in" style={{ animationDelay: '1.0s' }}>
-         <h2 className="text-3xl font-bold text-center mb-12 text-primary/90 font-serif">Explore B12 Insight</h2>
+      <section className="container mx-auto px-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary/90 font-serif tracking-tight">Explore B12 Insight</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature) => (
-            <Card key={feature.id} className="text-center hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 flex flex-col">
-              <CardHeader className="items-center">
-                <div className="p-4 bg-primary/10 rounded-full mb-4 inline-block">
-                   <feature.icon className="w-8 h-8 text-primary" />
+            <Card key={feature.id} className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col bg-card/90 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden">
+              <CardHeader className="items-center pt-8 pb-4">
+                <div className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full mb-4 inline-block text-primary transition-transform duration-300 hover:scale-110">
+                   <feature.icon className="w-9 h-9" />
                 </div>
                 <CardTitle className="text-xl font-serif">{feature.title}</CardTitle>
               </CardHeader>
-              <CardContent className="flex-grow">
-                <CardDescription className="font-inter">{feature.description}</CardDescription>
+              <CardContent className="flex-grow px-6 pb-4">
+                <CardDescription className="font-inter text-foreground/70">{feature.description}</CardDescription>
               </CardContent>
-               <CardContent>
-                 <Button asChild variant="link" className="text-primary">
-                   <Link href={feature.href}>Learn More</Link>
+               <CardContent className="pb-6">
+                 <Button asChild variant="link" className="text-primary font-medium text-base">
+                   <Link href={feature.href}>
+                    {feature.title === 'Identify Symptoms' ? 'Check Now' : 'Learn More'} →
+                   </Link>
                  </Button>
                </CardContent>
             </Card>
@@ -123,29 +142,37 @@ export default function Home() {
       </section>
 
        {/* Patient Story Preview Carousel */}
-       <section className="bg-muted/50 py-16 md:py-20 animate-fade-in" style={{ animationDelay: '1.2s' }}>
+       <section className="bg-muted/40 py-16 md:py-24 animate-fade-in" style={{ animationDelay: '0.8s' }}>
          <div className="container mx-auto px-4">
-           <h2 className="text-3xl font-bold text-center mb-12 text-primary/90 font-serif">Real Stories, Real Impact</h2>
+           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary/90 font-serif tracking-tight">Real Stories, Real Impact</h2>
            <Carousel
             opts={{ align: "start", loop: true }}
-            className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl mx-auto"
+            className="w-full max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto"
            >
-             <CarouselContent>
+             <CarouselContent className="-ml-4"> {/* Adjust margin for spacing */}
                {stories.map((story) => (
-                 <CarouselItem key={story.id} className="md:basis-1/2 lg:basis-1/3">
+                 <CarouselItem key={story.id} className="md:basis-1/2 lg:basis-1/3 pl-4"> {/* Adjust basis and add padding */}
                    <div className="p-1 h-full">
-                     <Card className="flex flex-col h-full overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                      <img src={story.image} alt={story.title} className="w-full h-48 object-cover" />
-                       <CardHeader>
-                         <CardTitle className="text-lg font-serif">{story.title}</CardTitle>
-                         <CardDescription className="text-xs text-muted-foreground font-inter">By {story.name}</CardDescription>
+                     <Card className="flex flex-col h-full overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-card rounded-xl border border-border/50">
+                      <div className="relative w-full h-48">
+                         <Image
+                            src={story.image}
+                            alt={story.title}
+                            layout="fill" // Use fill layout
+                            objectFit="cover" // Ensure image covers the area
+                            className="transition-transform duration-500 hover:scale-105"
+                         />
+                      </div>
+                       <CardHeader className="pt-4 pb-2">
+                         <CardTitle className="text-lg font-serif tracking-tight">{story.title}</CardTitle>
+                         <CardDescription className="text-xs text-muted-foreground font-inter pt-1">By {story.name}</CardDescription>
                        </CardHeader>
-                       <CardContent className="flex-grow">
+                       <CardContent className="flex-grow pb-2">
                          <p className="text-sm text-foreground/80 line-clamp-3 font-inter">{story.excerpt}</p>
                        </CardContent>
-                        <CardContent>
-                           <Button asChild variant="secondary" size="sm" className="w-full">
-                              <Link href="#">Read Full Story</Link>
+                        <CardContent className="pb-4">
+                           <Button asChild variant="secondary" size="sm" className="w-full hover:bg-secondary/90 transition-colors">
+                              <Link href="#">Read Full Story (Soon)</Link>
                            </Button>
                        </CardContent>
                      </Card>
@@ -153,36 +180,39 @@ export default function Home() {
                  </CarouselItem>
                ))}
              </CarouselContent>
-             <CarouselPrevious className="absolute left-[-50px] top-1/2 -translate-y-1/2 hidden md:flex" />
-             <CarouselNext className="absolute right-[-50px] top-1/2 -translate-y-1/2 hidden md:flex" />
+             {/* Adjust position and style of prev/next buttons */}
+             <CarouselPrevious className="absolute left-[-15px] sm:left-[-25px] top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border shadow-md" />
+             <CarouselNext className="absolute right-[-15px] sm:right-[-25px] top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border shadow-md" />
            </Carousel>
-            <div className="text-center mt-8">
-                 <Button asChild variant="outline">
-                    <Link href="#">View All Stories</Link>
+            <div className="text-center mt-10">
+                 <Button asChild variant="outline" size="lg" className="hover:bg-accent/50 transition-colors">
+                    <Link href="#">View All Stories (Soon)</Link>
                  </Button>
                </div>
          </div>
        </section>
 
        {/* Email Signup Section */}
-      <section className="container mx-auto px-4 py-16 animate-fade-in" style={{ animationDelay: '1.4s' }}>
-        <Card className="max-w-2xl mx-auto bg-gradient-to-r from-accent/20 via-background to-secondary/20 shadow-lg border-primary/20">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-primary font-serif">Stay Informed</CardTitle>
-            <CardDescription className="font-inter">Get weekly health tips and real stories in your inbox.</CardDescription>
+      <section className="container mx-auto px-4 py-16 md:py-20 animate-fade-in" style={{ animationDelay: '1.0s' }}>
+        <Card className="max-w-2xl mx-auto bg-gradient-to-r from-primary/10 via-background to-accent/10 shadow-lg border-primary/20 rounded-xl p-6 md:p-8">
+          <CardHeader className="text-center pt-0 px-0 pb-4">
+            <CardTitle className="text-2xl md:text-3xl text-primary font-serif tracking-tight">Stay Informed</CardTitle>
+            <CardDescription className="font-inter text-foreground/70 mt-2">Get weekly health tips, B12 insights, and real stories in your inbox.</CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-2">
+          <CardContent className="px-0 pb-0">
+            <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3">
               <Input
                 type="email"
                 placeholder="Enter your email address"
-                className="flex-grow font-inter"
+                className="flex-grow font-inter h-11 text-base" // Increased height and text size
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 aria-label="Email for newsletter"
+                required // Add required attribute
               />
-              <Button type="submit" className="shadow hover:shadow-md transition-shadow">Subscribe</Button>
+              <Button type="submit" size="lg" className="shadow hover:shadow-md transition-shadow">Subscribe</Button>
             </form>
+             <p className="text-xs text-muted-foreground text-center mt-4">We respect your privacy. Unsubscribe anytime.</p>
           </CardContent>
         </Card>
       </section>
