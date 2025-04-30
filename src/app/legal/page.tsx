@@ -5,6 +5,7 @@ import { ShieldAlert, Cookie, FileText, AlertTriangle, ChevronsUpDown } from 'lu
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'; // Import Accordion components
 import { Button } from '@/components/ui/button'; // For potential "Back to Top"
 import { useState, useEffect } from 'react'; // For Back to Top button visibility
+import { cn } from '@/lib/utils'; // Import cn utility
 
 export default function LegalPage() {
    const [showBackToTop, setShowBackToTop] = useState(false);
