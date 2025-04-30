@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-// Import Metadata type - Metadata cannot be exported from client components
+import type { Metadata } from 'next'; // Metadata type - Can be defined here or layout
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { BarChart, ChartTooltip, ChartTooltipContent } from '@tremor/react'; // Using Tremor for charts, import Tooltip components
@@ -20,6 +20,34 @@ const RedBloodCellIcon = () => (
     <circle cx="12" cy="12" r="5" fill="hsl(var(--card))" fillOpacity="0.3"/>
   </svg>
 );
+
+
+// Metadata for this specific page (Exported from Server Component context, e.g., layout.tsx)
+// export const metadata: Metadata = {
+//   title: 'About Vitamin B12 (Cobalamin)',
+//   description: 'Learn about Vitamin B12: what it is, its crucial biological roles (DNA synthesis, nerve health, energy), recommended daily dosages by age, and debunk common myths.',
+//   alternates: {
+//     canonical: '/about-b12',
+//   },
+//   openGraph: {
+//     title: 'About Vitamin B12 (Cobalamin) | B12 Insight',
+//     description: 'Explore the vital functions of Vitamin B12, dosage guidelines, and essential facts.',
+//     url: 'https://b12insight.com/about-b12',
+//     images: [
+//       {
+//         url: 'https://b12insight.com/og-about-b12.png', // Replace with specific OG image for this page
+//         width: 1200,
+//         height: 630,
+//         alt: 'Information about Vitamin B12',
+//       },
+//     ],
+//   },
+//    twitter: {
+//       title: 'About Vitamin B12 (Cobalamin) | B12 Insight',
+//       description: 'Explore the vital functions of Vitamin B12, dosage guidelines, and essential facts.',
+//       images: ['https://b12insight.com/twitter-about-b12.png'], // Replace with specific Twitter image
+//    },
+// };
 
 
 export default function AboutB12Page() {
@@ -132,11 +160,13 @@ export default function AboutB12Page() {
            <div className="flex justify-center items-center p-6 md:p-10 bg-gradient-to-br from-muted/30 to-secondary/20 rounded-xl shadow-inner border border-border/30">
              {/* Replace with an actual infographic or relevant image */}
               <Image
-                  src="https://picsum.photos/seed/b12molecule/500/400" // Replace with a relevant image URL
-                  alt="Visual representation related to Vitamin B12"
+                  src="https://picsum.photos/seed/b12molecule/500/400" // Placeholder image URL
+                  alt="Abstract visual representing Vitamin B12 molecule structure" // Added descriptive alt text
                   width={500}
                   height={400}
                   className="rounded-lg object-cover shadow-md"
+                  priority={false} // Only priority load images above the fold
+                  loading="lazy" // Default in next/image, explicitly set for clarity
                 />
            </div>
         </div>

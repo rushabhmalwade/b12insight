@@ -11,6 +11,10 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from 'react';
 import Image from 'next/image'; // Use Next.js Image component
 
+// Note: Metadata cannot be exported from a 'use client' component.
+// Define page metadata in layout.tsx or parent Server Components if needed.
+
+
 export default function Home() {
    const { toast } = useToast();
    const [email, setEmail] = useState('');
@@ -156,10 +160,11 @@ export default function Home() {
                       <div className="relative w-full h-48">
                          <Image
                             src={story.image}
-                            alt={story.title}
+                            alt={`Preview image for story titled: ${story.title}`} // Descriptive alt text
                             fill // Use fill layout
                             style={{objectFit:"cover"}} // Ensure image covers the area
                             className="transition-transform duration-500 hover:scale-105"
+                            loading="lazy" // Lazy load carousel images
                          />
                       </div>
                        <CardHeader className="pt-4 pb-2">

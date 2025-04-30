@@ -14,6 +14,33 @@ import { cn } from '@/lib/utils'; // Import cn
 // Note: Metadata cannot be exported from a 'use client' component.
 // Define page metadata in layout.tsx or parent Server Components if needed.
 
+// Metadata for this specific page (Should be defined in layout.tsx or parent Server Component)
+// export const metadata: Metadata = {
+//   title: 'B12 Resources & Learning Hub',
+//   description: 'Explore articles, download guides, and watch videos about Vitamin B12. Filter by topic (supplements, symptoms, diet) and expertise level.',
+//   alternates: {
+//     canonical: '/resources',
+//   },
+//   openGraph: {
+//     title: 'B12 Resources & Learning Hub | B12 Insight',
+//     description: 'In-depth articles, guides, and videos on Vitamin B12 topics.',
+//     url: 'https://b12insight.com/resources',
+//      images: [
+//       {
+//         url: 'https://b12insight.com/og-resources.png', // Replace with specific OG image
+//         width: 1200,
+//         height: 630,
+//         alt: 'Collection of B12 resources: articles, guides, videos.',
+//       },
+//     ],
+//   },
+//    twitter: {
+//       title: 'B12 Resources & Learning Hub | B12 Insight',
+//       description: 'In-depth articles, guides, and videos on Vitamin B12 topics.',
+//       images: ['https://b12insight.com/twitter-resources.png'], // Replace with specific Twitter image
+//    },
+// };
+
 
 // Placeholder data (Consider fetching this from a CMS or API)
 const allArticles = [
@@ -149,10 +176,11 @@ export default function ResourcesPage() {
                    <div className="relative overflow-hidden h-56 w-full">
                       <Image
                          src={article.image}
-                         alt={article.title}
+                         alt={`Featured image for article titled: ${article.title}`} // Descriptive alt text
                          layout="fill"
                          objectFit="cover"
                          className="transition-transform duration-500 group-hover:scale-105"
+                         loading="lazy" // Lazy load article images
                       />
                       {/* Optional: Gradient overlay */}
                       {/* <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div> */}
@@ -248,7 +276,7 @@ export default function ResourcesPage() {
                           frameBorder="0" // Use frameBorder instead of frameborder
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
-                          loading="lazy" // Add lazy loading
+                          loading="lazy" // Add lazy loading to videos
                       ></iframe>
                   </div>
                </CardContent>

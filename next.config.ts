@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    formats: ['image/avif', 'image/webp'], // Add AVIF and WebP to formats
     remotePatterns: [
       {
         protocol: 'https',
@@ -16,6 +17,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      // Add other allowed image domains here if necessary
+      // Example:
+      // {
+      //   protocol: 'https',
+      //   hostname: 'cdn.sanity.io',
+      // },
     ],
   },
 };

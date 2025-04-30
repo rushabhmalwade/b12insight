@@ -21,10 +21,38 @@ import type { DietPlannerInput, DietPlannerOutput } from '@/ai/flows/diet-planne
 import { generateDietPlan } from '@/ai/flows/diet-planner-flow'; // Import function
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'; // Import Accordion
 import { z } from 'zod'; // Import Zod
+import type { Metadata } from 'next'; // Metadata type
 
 
 // Note: Metadata cannot be exported from a 'use client' component.
 // Define page metadata in layout.tsx or parent Server Components if needed.
+
+// Metadata for this specific page (Should be defined in layout.tsx or parent Server Component)
+// export const metadata: Metadata = {
+//   title: 'Vitamin B12 Sources: Animal, Vegan & Supplements',
+//   description: 'Explore the primary sources of Vitamin B12, including animal products (meat, fish, dairy), fortified vegan options (nutritional yeast, plant milks), and various supplements.',
+//   alternates: {
+//     canonical: '/sources-of-b12',
+//   },
+//    openGraph: {
+//     title: 'Vitamin B12 Sources: Animal, Vegan & Supplements | B12 Insight',
+//     description: 'Find out where to get Vitamin B12 from food (animal & fortified vegan) and supplements.',
+//     url: 'https://b12insight.com/sources-of-b12',
+//     images: [
+//       {
+//         url: 'https://b12insight.com/og-sources.png', // Replace with specific OG image
+//         width: 1200,
+//         height: 630,
+//         alt: 'Collage of Vitamin B12 food sources and supplements.',
+//       },
+//     ],
+//   },
+//    twitter: {
+//       title: 'Vitamin B12 Sources: Animal, Vegan & Supplements | B12 Insight',
+//       description: 'Find out where to get Vitamin B12 from food (animal & fortified vegan) and supplements.',
+//       images: ['https://b12insight.com/twitter-sources.png'], // Replace with specific Twitter image
+//    },
+// };
 
 
 // Data for B12 Sources (existing data)
@@ -202,7 +230,14 @@ export default function SourcesOfB12Page() {
                         {animalSources.map((source) => (
                             <Card key={source.name} className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 rounded-lg border border-border/40 flex flex-col">
                                 <div className="relative w-full h-36 bg-secondary/20 overflow-hidden">
-                                    <Image src={source.image} alt={source.name} layout="fill" objectFit="cover" className="transition-transform duration-500 group-hover:scale-105" />
+                                    <Image
+                                      src={source.image}
+                                      alt={`Image of ${source.name} as a source of B12`} // Descriptive alt text
+                                      layout="fill"
+                                      objectFit="cover"
+                                      className="transition-transform duration-500 group-hover:scale-105"
+                                      loading="lazy" // Lazy load images in grid
+                                    />
                                 </div>
                                 <CardContent className="p-4 flex-grow flex flex-col justify-between">
                                     <div>
@@ -237,7 +272,14 @@ export default function SourcesOfB12Page() {
                             {plantSources.map((source) => (
                                 <Card key={source.name} className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 rounded-lg border border-border/40 flex flex-col">
                                     <div className="relative w-full h-32 bg-secondary/20 overflow-hidden">
-                                        <Image src={source.image} alt={source.name} layout="fill" objectFit="cover" className="transition-transform duration-500 group-hover:scale-105" />
+                                        <Image
+                                          src={source.image}
+                                          alt={`Image of ${source.name} as a fortified vegan source of B12`} // Descriptive alt text
+                                          layout="fill"
+                                          objectFit="cover"
+                                          className="transition-transform duration-500 group-hover:scale-105"
+                                          loading="lazy" // Lazy load images in grid
+                                        />
                                     </div>
                                     <CardContent className="p-4 flex-grow">
                                         <h3 className="font-semibold text-lg mb-1 flex items-center gap-2">
