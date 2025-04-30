@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://b12insight.com/sitemap.xml
