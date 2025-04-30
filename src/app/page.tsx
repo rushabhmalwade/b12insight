@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Microscope, Search, Users, Brain, Droplet, Leaf, Sparkles } from 'lucide-react'; // Added Sparkles
+import { Microscope, Search, Users, Brain, Droplet, Leaf, Sparkles } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useState } from 'react';
 import Image from 'next/image'; // Use Next.js Image component
@@ -37,13 +37,14 @@ export default function Home() {
      }
    };
 
+   // Adjusted quickFacts data structure to avoid nested links
+   const quickFacts = [
+     { id: 1, stat: 'Up to 15%', description: 'of people in developed countries may have B12 deficiency.', icon: Users, href: '/b12-deficiency-symptoms' },
+     { id: 2, stat: '80%+', descriptionPrefix: 'of ', descriptionLinkText: 'vegans/vegetarians', descriptionSuffix: ' not supplementing may be deficient.', icon: Leaf, href: '/sources-of-b12' },
+     { id: 3, stat: 'Fatigue', descriptionPrefix: 'is one of the most common, often overlooked, ', descriptionLinkText: 'early symptoms', descriptionSuffix: '.', icon: Droplet, href: '/b12-deficiency-symptoms' },
+     { id: 4, stat: 'Nerve Health', descriptionPrefix: 'B12 is crucial for maintaining healthy ', descriptionLinkText: 'nerve function', descriptionSuffix: '.', icon: Brain, href: '/about-b12' },
+   ];
 
-  const quickFacts = [
-    { id: 1, stat: 'Up to 15%', description: 'of people in developed countries may have B12 deficiency.', icon: Users, href: '/b12-deficiency-symptoms' },
-    { id: 2, stat: '80%+', description: <>of <Link href="/sources-of-b12" className="text-primary hover:underline font-medium">vegans/vegetarians</Link> not supplementing may be deficient.</>, icon: Leaf, href: '/sources-of-b12' },
-    { id: 3, stat: 'Fatigue', description: <>is one of the most common, often overlooked, <Link href="/b12-deficiency-symptoms" className="text-primary hover:underline font-medium">early symptoms</Link>.</>, icon: Droplet, href: '/b12-deficiency-symptoms' }, // Using Droplet metaphorically for energy level
-    { id: 4, stat: 'Nerve Health', description: <>B12 is crucial for maintaining healthy <Link href="/about-b12" className="text-primary hover:underline font-medium">nerve function</Link>.</>, icon: Brain, href: '/about-b12' },
-  ];
 
   const features = [
     { id: 1, icon: Microscope, title: 'Learn About B12', description: 'Understand its crucial role, benefits, and recommended dosages.', href: '/about-b12' },
@@ -83,12 +84,12 @@ export default function Home() {
             From <Link href="/b12-deficiency-symptoms" className="text-primary hover:underline font-medium">Symptoms</Link> to Solutions — Discover, Learn, and Share your B12 journey.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            <Button size="lg" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
-              <Link href="/about-b12">Learn About B12</Link>
-            </Button>
-            <Button size="lg" variant="secondary" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
+             <Button size="lg" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
+               <Link href="/about-b12">Learn About B12</Link>
+             </Button>
+             <Button size="lg" variant="secondary" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
                <Link href="/b12-deficiency-symptoms">Check Symptoms</Link>
-            </Button>
+             </Button>
              <Button size="lg" variant="outline" asChild className="shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
                <Link href="/contact">Join Community</Link>
              </Button>
@@ -110,7 +111,17 @@ export default function Home() {
                     <CardTitle className="text-4xl font-bold text-primary">{fact.stat}</CardTitle>
                   </CardHeader>
                   <CardContent className="pb-6 flex-grow flex items-center justify-center">
-                    <p className="text-muted-foreground font-inter text-sm">{fact.description}</p>
+                    {/* Updated rendering logic for description */}
+                     <p className="text-muted-foreground font-inter text-sm">
+                       {fact.descriptionPrefix}
+                       {fact.descriptionLinkText && (
+                         // Render linked text as a span with styling, not a nested Link
+                         <span className="text-primary font-medium group-hover:underline">{fact.descriptionLinkText}</span>
+                       )}
+                       {fact.descriptionSuffix}
+                       {/* Render simple description if link parts are not present */}
+                       {fact.description}
+                     </p>
                   </CardContent>
                 </Card>
               </Link>
