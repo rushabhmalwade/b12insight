@@ -4,7 +4,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { BarChart, ChartTooltip, ChartTooltipContent } from '@tremor/react'; // Using Tremor for charts, import Tooltip components
-import { BrainCircuit, Dna, HeartPulse, ShieldCheck, Info, Atom, Stethoscope } from 'lucide-react'; // Import relevant icons
+import { BrainCircuit, Dna, HeartPulse, ShieldCheck, Info, Atom, Stethoscope, AlertTriangle } from 'lucide-react'; // Import relevant icons including AlertTriangle
 import { cn } from '@/lib/utils'; // Import cn for conditional classes
 import Image from 'next/image'; // Import Next.js Image
 
