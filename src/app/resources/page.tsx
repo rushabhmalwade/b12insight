@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+// import type { Metadata } from 'next'; // Metadata cannot be exported from client components
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,10 @@ import { BookOpen, FileText, Download, Video, Search, Filter, XCircle, Loader2, 
 import Image from 'next/image';
 import Link from 'next/link'; // Import Link component
 import { cn } from '@/lib/utils'; // Import cn
+
+// Note: Metadata cannot be exported from a 'use client' component.
+// Define page metadata in layout.tsx or parent Server Components if needed.
+
 
 // Placeholder data (Consider fetching this from a CMS or API)
 const allArticles = [

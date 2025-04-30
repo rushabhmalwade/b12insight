@@ -18,6 +18,10 @@ import type { SymptomCheckerInput, SymptomCheckerOutput } from '@/ai/flows/sympt
 import { checkB12DeficiencySymptoms } from '@/ai/flows/symptom-checker';
 import { cn } from '@/lib/utils'; // Import cn
 
+// Note: Metadata cannot be exported from a 'use client' component.
+// Define page metadata in layout.tsx or parent Server Components if needed.
+
+
 // Icons for categories
 const NeurologicalIcon = Brain;
 const PhysicalIcon = Activity; // Activity icon for energy/physical state

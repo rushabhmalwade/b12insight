@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+// import type { Metadata } from 'next'; // Metadata cannot be exported from client components
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -22,6 +23,9 @@ import { useForm } from 'react-hook-form';
 import { Mail, MessageSquare, Send, HelpCircle, Instagram, Twitter, Facebook, Link as LinkIcon, AlertTriangle, Loader2 } from 'lucide-react'; // Added icons
 import Link from 'next/link'; // Use NextLink for external links potentially
 import { cn } from '@/lib/utils'; // Import cn
+
+// Note: Metadata cannot be exported from a 'use client' component.
+// Define page metadata in layout.tsx or parent Server Components if needed.
 
 const formSchema = z.object({
   name: z.string().min(2, {

@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from 'react';
 import Image from 'next/image'; // Use Next.js Image component
 
-
 export default function Home() {
    const { toast } = useToast();
    const [email, setEmail] = useState('');
@@ -46,8 +45,8 @@ export default function Home() {
   const features = [
     { id: 1, icon: Microscope, title: 'Learn About B12', description: 'Understand its crucial role, benefits, and recommended dosages.', href: '/about-b12' },
     { id: 2, icon: Search, title: 'Identify Symptoms', description: 'Recognize the signs of deficiency & use our AI symptom checker.', href: '/b12-deficiency-symptoms#symptom-checker' }, // Link directly to checker
-    { id: 3, icon: PencilLine, title: 'Read Real Stories', description: 'Gain insights from personal journeys of diagnosis and recovery. (Coming Soon)', href: '#' },
-    { id: 4, icon: Users, title: 'Join the Community', description: 'Connect, ask questions, and share experiences with others. (Coming Soon)', href: '#' },
+    { id: 3, icon: PencilLine, title: 'Read Real Stories', description: 'Gain insights from personal journeys of diagnosis and recovery. (Coming Soon)', href: '/resources' }, // Updated link to resources
+    { id: 4, icon: Users, title: 'Join the Community', description: 'Connect, ask questions, and share experiences with others. (Coming Soon)', href: '/contact' }, // Updated link to contact
   ];
 
   const stories = [
@@ -87,9 +86,9 @@ export default function Home() {
             <Button size="lg" variant="secondary" asChild className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
                <Link href="/b12-deficiency-symptoms#symptom-checker">Check Symptoms</Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
-               <Link href="#">Join Community (Soon)</Link>
-            </Button>
+             <Button size="lg" variant="outline" asChild className="shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
+               <Link href="/contact">Join Community</Link>
+             </Button>
           </div>
         </div>
       </section>
@@ -158,8 +157,8 @@ export default function Home() {
                          <Image
                             src={story.image}
                             alt={story.title}
-                            layout="fill" // Use fill layout
-                            objectFit="cover" // Ensure image covers the area
+                            fill // Use fill layout
+                            style={{objectFit:"cover"}} // Ensure image covers the area
                             className="transition-transform duration-500 hover:scale-105"
                          />
                       </div>
@@ -172,7 +171,7 @@ export default function Home() {
                        </CardContent>
                         <CardContent className="pb-4">
                            <Button asChild variant="secondary" size="sm" className="w-full hover:bg-secondary/90 transition-colors">
-                              <Link href="#">Read Full Story (Soon)</Link>
+                              <Link href="/resources">Read Full Story</Link>
                            </Button>
                        </CardContent>
                      </Card>
@@ -186,7 +185,7 @@ export default function Home() {
            </Carousel>
             <div className="text-center mt-10">
                  <Button asChild variant="outline" size="lg" className="hover:bg-accent/50 transition-colors">
-                    <Link href="#">View All Stories (Soon)</Link>
+                    <Link href="/resources">View All Stories</Link>
                  </Button>
                </div>
          </div>

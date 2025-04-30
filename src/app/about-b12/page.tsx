@@ -1,12 +1,17 @@
 'use client';
 
 import React from 'react';
+// Import Metadata type - Metadata cannot be exported from client components
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { BarChart, ChartTooltip, ChartTooltipContent } from '@tremor/react'; // Using Tremor for charts, import Tooltip components
 import { BrainCircuit, Dna, HeartPulse, ShieldCheck, Info, Atom, Stethoscope, AlertTriangle } from 'lucide-react'; // Import relevant icons including AlertTriangle
 import { cn } from '@/lib/utils'; // Import cn for conditional classes
 import Image from 'next/image'; // Import Next.js Image
+
+// Note: Metadata cannot be exported from a 'use client' component.
+// Define page metadata in layout.tsx or parent Server Components if needed.
+
 
 // Inline SVG for Red Blood Cell (simplified)
 const RedBloodCellIcon = () => (

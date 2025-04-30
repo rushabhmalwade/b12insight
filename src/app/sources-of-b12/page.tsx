@@ -23,6 +23,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { z } from 'zod'; // Import Zod
 
 
+// Note: Metadata cannot be exported from a 'use client' component.
+// Define page metadata in layout.tsx or parent Server Components if needed.
+
+
 // Data for B12 Sources (existing data)
 const animalSources = [
   { name: 'Beef Liver (Cooked)', icon: Beef, image: 'https://picsum.photos/seed/beefliver/200/150', description: 'Extremely high. ~70-80 mcg per 3oz serving.' },

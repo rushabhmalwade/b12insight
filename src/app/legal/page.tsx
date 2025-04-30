@@ -1,11 +1,16 @@
 'use client'; // Required for Accordion
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+// import type { Metadata } from 'next'; // Metadata cannot be exported from client components
 import { ShieldAlert, Cookie, FileText, AlertTriangle, ChevronsUpDown } from 'lucide-react'; // Added icons
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'; // Import Accordion components
 import { Button } from '@/components/ui/button'; // For potential "Back to Top"
 import { useState, useEffect } from 'react'; // For Back to Top button visibility
 import { cn } from '@/lib/utils'; // Import cn utility
+
+// Note: Metadata cannot be exported from a 'use client' component.
+// Define page metadata in layout.tsx or parent Server Components if needed.
+
 
 export default function LegalPage() {
    const [showBackToTop, setShowBackToTop] = useState(false);
