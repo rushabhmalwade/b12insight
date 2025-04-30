@@ -42,14 +42,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
+      {/* Added suppressHydrationWarning to body as well to potentially mitigate extension interference */}
       <body
+        suppressHydrationWarning={true}
         className={cn(
           'min-h-screen bg-background font-sans antialiased', // Use Tailwind's font-sans which defaults to Inter now
           inter.variable, // Apply Inter variable
           playfairDisplay.variable, // Apply Playfair Display variable
           manrope.variable // Apply Manrope variable (available for specific use)
         )}
-        // Remove suppressHydrationWarning from body, keep only on html
       >
         <Header /> {/* Add Header */}
         {/* Increased top padding for more space below header, adjusted bottom padding */}
