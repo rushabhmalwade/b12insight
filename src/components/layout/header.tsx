@@ -91,14 +91,14 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-medium">
           {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = pathname === item.href; // Check if active
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
                     "transition-colors px-2 py-1 rounded-md hover:bg-primary/10", // Base styles
-                    isActive
+                    isActive // Condition
                       ? "text-primary font-semibold bg-primary/10" // Active styles
                       : "text-foreground/70 hover:text-primary" // Inactive styles
                   )}
@@ -137,14 +137,14 @@ export function Header() {
               </Link>
               <div className="flex flex-col gap-3 pl-6">
                 {navItems.map((item) => {
-                  const isActive = pathname === item.href;
+                  const isActive = pathname === item.href; // Check if active
                   return (
                      <Link
                       key={item.href}
                       href={item.href}
                       className={cn(
                         "text-base py-2 font-medium rounded-l-md transition-colors", // Base styles
-                        isActive
+                        isActive // Condition
                           ? "text-primary font-semibold bg-primary/10" // Active styles
                           : "text-foreground/80 hover:text-primary hover:bg-primary/5" // Inactive styles
                       )}
