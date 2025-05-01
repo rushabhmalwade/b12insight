@@ -6,10 +6,10 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Sun, Moon, User, LogOut, Loader2 } from 'lucide-react'; // Added LogOut, Loader2
+import { Menu, Sun, Moon, User, LogOut, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/hooks/useAuth.tsx'; // Import useAuth hook
-import { useToast } from '@/hooks/use-toast'; // Import useToast
+import { useAuth } from '@/hooks/useAuth.tsx';
+import { useToast } from '@/hooks/use-toast';
 
 // Consistent SVG path data
 const svgPathData1 = "M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z";
@@ -22,10 +22,11 @@ const ThemeToggle = () => {
     const [mounted, setMounted] = useState(false);
 
      useEffect(() => {
+        // Ensure this runs only on the client
+        setMounted(true);
         const storedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         setTheme(storedTheme || (prefersDark ? 'dark' : 'light'));
-        setMounted(true);
      }, []);
 
     useEffect(() => {
@@ -45,7 +46,7 @@ const ThemeToggle = () => {
     }
 
     if (!mounted || !theme) {
-        // Render a placeholder during hydration to prevent mismatch
+        // Render a placeholder button with no function during SSR/hydration mismatch
         return <Button variant="ghost" size="icon" disabled aria-label="Toggle theme" className="h-9 w-9 opacity-0 pointer-events-none" />;
     }
 
@@ -217,8 +218,7 @@ export function Header() {
                      </>
                   ) : null}
 
-                  {/* Add Legal link to mobile menu */}
-                  <Link href="/legal" className="text-base py-2.5 px-3 font-medium rounded-md text-foreground/80 hover:text-primary hover:bg-primary/5 block mt-4" onClick={() => setIsMobileMenuOpen(false)}>Legal</Link>
+                  {/* Removed Legal link from mobile menu */}
               </div>
             </SheetContent>
           </Sheet>

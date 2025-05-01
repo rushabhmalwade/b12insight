@@ -4,7 +4,8 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/toaster";
 import { Header } from '@/components/layout/header';
-import { AuthProvider } from '@/hooks/useAuth.tsx'; // Update import path
+import { Footer } from '@/components/layout/footer'; // Import the Footer component
+import { AuthProvider } from '@/hooks/useAuth.tsx';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -98,7 +99,7 @@ export default function RootLayout({
       <body
         suppressHydrationWarning={true} // Still needed for potential browser extension issues
         className={cn(
-          'min-h-screen bg-background font-sans antialiased', // Use Tailwind's font-sans which defaults to Inter now
+          'min-h-screen bg-background font-sans antialiased flex flex-col', // Use Tailwind's font-sans which defaults to Inter now, add flex flex-col
           inter.variable, // Apply Inter variable
           playfairDisplay.variable, // Apply Playfair Display variable
           manrope.variable // Apply Manrope variable
@@ -106,9 +107,10 @@ export default function RootLayout({
       >
         <AuthProvider> {/* Wrap content with AuthProvider */}
           <Header />
-          <main className="pt-12 pb-20 md:pt-16">
+          <main className="flex-grow pt-12 pb-20 md:pt-16"> {/* Add flex-grow */}
             {children}
           </main>
+          <Footer /> {/* Add the Footer component */}
           <Toaster />
         </AuthProvider> {/* Close AuthProvider */}
       </body>
