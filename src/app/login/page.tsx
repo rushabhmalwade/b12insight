@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -11,11 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Import useRouter
 import { Loader2, LogIn } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth.tsx'; // Import useAuth
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  password: z.string().min(1, { message: "Password is required." }), // Min 1 char for presence check
 });
 
 type LoginFormValues = z.infer<typeof formSchema>;
@@ -23,6 +24,8 @@ type LoginFormValues = z.infer<typeof formSchema>;
 export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { login } = useAuth(); // Get login function from useAuth
+  const router = useRouter(); // Get router instance
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
@@ -34,24 +37,38 @@ export default function LoginPage() {
 
   async function onSubmit(values: LoginFormValues) {
     setIsSubmitting(true);
-    console.log('Login Form Values:', values); // Log values for debugging
+    console.log('Login Form Values:', values);
 
-    // Simulate login attempt delay (Replace with actual API call)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+        const success = await login(values.email, values.password);
 
-    // Placeholder for actual login logic
-    toast({
-      title: "Login Functionality Pending",
-      description: "Login is not yet implemented. Proceeding as if successful for demo.",
-      variant: "default",
-    });
-    // In a real app, you'd handle success/error based on API response
-    // e.g., redirect to profile or show error toast
-    // form.reset(); // Optionally reset form
-
-    setIsSubmitting(false);
-    // Example redirect (replace with actual logic)
-    // window.location.href = '/profile';
+        if (success) {
+            toast({
+                title: "Login Successful!",
+                description: "Welcome back!",
+                variant: "default",
+            });
+            // Redirect to profile page or dashboard after successful login
+            router.push('/profile'); // Redirect to profile page
+        } else {
+             // Login function in useAuth already handles setting user to null
+             // The auth library simulation handles the failure case
+             toast({
+                title: "Login Failed",
+                description: "Invalid email or password. Please try again.", // More specific error
+                variant: "destructive",
+            });
+        }
+    } catch (error) {
+        console.error("Login page error:", error);
+        toast({
+            title: "Login Error",
+            description: "An unexpected error occurred during login.",
+            variant: "destructive",
+        });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -102,26 +119,11 @@ export default function LoginPage() {
               Sign up
             </Link>
           </p>
-           {/* Optional: Add "Forgot Password?" link later */}
-            <p className="mt-2 text-center text-xs text-muted-foreground">
-              <Link href="#" className="hover:underline">
-                Forgot Password?
-              </Link>
-            </p>
-           {/* Optional: Add OAuth buttons later */}
-            {/* <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
-                </div>
-            </div>
-            <div className="grid grid-cols-1 gap-3">
-                <Button variant="outline" disabled>
-                    Google (Coming Soon)
-                </Button>
-            </div> */}
+           <p className="mt-2 text-center text-xs text-muted-foreground">
+             <Button variant="link" className="p-0 h-auto text-xs" asChild>
+                <Link href="#">Forgot Password?</Link>
+             </Button>
+           </p>
         </CardContent>
       </Card>
     </div>

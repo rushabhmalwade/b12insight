@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -11,9 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Import useRouter
 import { Loader2, UserPlus } from 'lucide-react';
 
 const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }), // Add name field
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
   confirmPassword: z.string().min(6, { message: "Please confirm your password." }),
@@ -27,10 +28,12 @@ type SignupFormValues = z.infer<typeof formSchema>;
 export default function SignupPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const router = useRouter(); // Get router instance
 
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "", // Default value for name
       email: "",
       password: "",
       confirmPassword: "",
@@ -39,24 +42,45 @@ export default function SignupPage() {
 
   async function onSubmit(values: SignupFormValues) {
     setIsSubmitting(true);
-    console.log('Signup Form Values:', values); // Log values for debugging
+    console.log('Signup Form Values (excluding passwords for safety):', { name: values.name, email: values.email }); // Log values
 
-    // Simulate signup attempt delay (Replace with actual API call)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+        const response = await fetch('/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: values.name,
+                email: values.email,
+                password: values.password, // Send password to API for hashing
+            }),
+        });
 
-    // Placeholder for actual signup logic
-    toast({
-      title: "Signup Functionality Pending",
-      description: "Signup is not yet implemented. Proceeding as if successful for demo.",
-      variant: "default",
-    });
-    // In a real app, you'd handle success/error based on API response
-    // e.g., redirect to login or show error toast
-    // form.reset(); // Optionally reset form
+        const result = await response.json();
 
-    setIsSubmitting(false);
-    // Example redirect (replace with actual logic)
-    // window.location.href = '/login';
+        if (response.ok) {
+            toast({
+                title: "Signup Successful!",
+                description: "Your account has been created. Please log in.",
+                variant: "default",
+            });
+            router.push('/login'); // Redirect to login page
+        } else {
+             toast({
+                title: "Signup Failed",
+                description: result.message || "Could not create account. Please try again.",
+                variant: "destructive",
+            });
+        }
+    } catch (error) {
+         console.error("Signup error:", error);
+         toast({
+            title: "Signup Error",
+            description: "An unexpected error occurred during signup.",
+            variant: "destructive",
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
   }
 
   return (
@@ -70,6 +94,19 @@ export default function SignupPage() {
         <CardContent className="p-6 md:p-8 pt-0">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+               <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your Full Name" {...field} className="h-11 text-base" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -122,29 +159,16 @@ export default function SignupPage() {
           </p>
           <p className="mt-4 text-center text-xs text-muted-foreground">
             By signing up, you agree to our{' '}
-            <Link href="/legal" className="hover:underline">
-              Terms of Service
-            </Link>{' '}
-            and{' '}
-            <Link href="/legal#privacy-policy-trigger" className="hover:underline"> {/* Update link if Privacy Policy has ID */}
-              Privacy Policy
-            </Link>
+             <Button variant="link" className="p-0 h-auto text-xs" asChild>
+               <Link href="/legal">Terms of Service</Link>
+             </Button>
+            {' '}and{' '}
+             <Button variant="link" className="p-0 h-auto text-xs" asChild>
+                {/* Link might need adjustment based on legal page structure */}
+               <Link href="/legal#privacy-policy">Privacy Policy</Link>
+             </Button>
             .
           </p>
-           {/* Optional: Add OAuth buttons later */}
-           {/* <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">Or sign up with</span>
-                </div>
-            </div>
-             <div className="grid grid-cols-1 gap-3">
-                <Button variant="outline" disabled>
-                    Google (Coming Soon)
-                </Button>
-            </div> */}
         </CardContent>
       </Card>
     </div>

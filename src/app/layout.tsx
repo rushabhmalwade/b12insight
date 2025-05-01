@@ -1,58 +1,57 @@
 import type { Metadata } from 'next';
-import { Manrope, Playfair_Display, Inter } from 'next/font/google'; // Import Playfair Display and Inter
+import { Manrope, Playfair_Display, Inter } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Toaster } from "@/components/ui/toaster"; // Import Toaster
-import { Header } from '@/components/layout/header'; // Import Header
+import { Toaster } from "@/components/ui/toaster";
+import { Header } from '@/components/layout/header';
+import { AuthProvider } from '@/hooks/useAuth.tsx'; // Update import path
 
-// Configure Inter font for body text (primary font)
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
-  display: 'swap', // Improve font loading
-  weight: ['400', '500', '600', '700'], // Add necessary weights
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
 });
 
-// Configure Playfair Display font for headings
 const playfairDisplay = Playfair_Display({
   variable: '--font-playfair-display',
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '700'], // Add necessary weights
+  weight: ['400', '700'],
 });
 
-// Configure Manrope font (optional/secondary)
 const manrope = Manrope({
   variable: '--font-manrope',
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '500', '600', '700'], // Add necessary weights
+  weight: ['400', '500', '600', '700'],
 });
 
-// Default metadata for the entire application
+// Default Metadata (Applied to all pages unless overridden)
 export const metadata: Metadata = {
-  // Define a base URL for canonical links and Open Graph images if needed
-  metadataBase: new URL('https://b12insight.com'), // Replace with your actual domain
+  metadataBase: new URL('https://b12insight.com'), // Set your base URL
   title: {
     default: 'B12 Insight - Your Guide to Vitamin B12',
-    template: '%s | B12 Insight', // Template for page titles
+    template: '%s | B12 Insight', // Template for page-specific titles
   },
-  description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support. Explore resources, check symptoms, and connect.', // Updated description
+  description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support. Explore resources, check symptoms, and connect.',
+  keywords: ['Vitamin B12', 'B12 Deficiency', 'Cobalamin', 'Symptoms', 'Sources', 'Vegan B12', 'Supplements', 'Health', 'Wellness', 'Community'],
+  authors: [{ name: 'B12 Insight Team' }],
+  // category: 'Health & Wellness',
   alternates: {
      canonical: '/', // Default canonical URL
    },
   openGraph: {
     title: 'B12 Insight - Your Guide to Vitamin B12',
-    description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support.', // Updated OG description
-    url: 'https://b12insight.com', // Default OG URL
+    description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support.',
+    url: 'https://b12insight.com', // Use the base URL
     siteName: 'B12 Insight',
-    // IMPORTANT: Replace with your actual preview image URL
     images: [
       {
-        url: 'https://b12insight.com/og-image.png', // Placeholder OG image URL
+        url: '/og-default.png', // Default OG image in /public
         width: 1200,
         height: 630,
-        alt: 'B12 Insight Website Preview',
+        alt: 'B12 Insight Website Logo and Preview',
       },
     ],
     locale: 'en_US',
@@ -61,13 +60,12 @@ export const metadata: Metadata = {
   twitter: {
       card: 'summary_large_image',
       title: 'B12 Insight - Your Guide to Vitamin B12',
-      description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support.', // Updated Twitter description
-      // site: '@yourtwitterhandle', // Add twitter handle if available
-      // creator: '@creatorhandle', // Add creator handle if available
-      // IMPORTANT: Replace with your actual preview image URL
-      images: ['https://b12insight.com/twitter-image.png'], // Placeholder Twitter image URL
+      description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support.',
+      // site: '@B12Insight', // Replace with your Twitter handle
+      // creator: '@YourCreatorHandle', // Optional: Creator handle
+      images: ['/twitter-default.png'], // Default Twitter image in /public
    },
-   robots: { // Default robots policy
+   robots: { // Ensure search engine visibility
      index: true,
      follow: true,
      googleBot: {
@@ -78,11 +76,17 @@ export const metadata: Metadata = {
        'max-snippet': -1,
      },
    },
-   // Charset is handled by Next.js automatically
+  // manifest: '/manifest.json', // If you add a PWA manifest
+  // icons: { // Provide various icon sizes
+  //   icon: [
+  //     { url: '/favicon.ico' },
+  //     { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+  //     { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+  //   ],
+  //   apple: '/apple-touch-icon.png', // Apple touch icon
+  // },
+  charset: 'utf-8', // Explicitly set charset
 };
-
-
-// --- Root Layout Component ---
 
 export default function RootLayout({
   children,
@@ -91,22 +95,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      {/* Added suppressHydrationWarning to body as well to potentially mitigate extension interference */}
       <body
-        suppressHydrationWarning={true} // Keep this if you still face hydration issues from extensions
+        suppressHydrationWarning={true} // Still needed for potential browser extension issues
         className={cn(
           'min-h-screen bg-background font-sans antialiased', // Use Tailwind's font-sans which defaults to Inter now
           inter.variable, // Apply Inter variable
           playfairDisplay.variable, // Apply Playfair Display variable
-          manrope.variable // Apply Manrope variable (available for specific use)
+          manrope.variable // Apply Manrope variable
         )}
       >
-        <Header /> {/* Add Header */}
-        {/* Increased top padding for more space below header, adjusted bottom padding */}
-        <main className="pt-12 pb-20 md:pt-16">
-          {children}
-        </main>
-        <Toaster /> {/* Add Toaster */}
+        <AuthProvider> {/* Wrap content with AuthProvider */}
+          <Header />
+          <main className="pt-12 pb-20 md:pt-16">
+            {children}
+          </main>
+          <Toaster />
+        </AuthProvider> {/* Close AuthProvider */}
       </body>
     </html>
   );
