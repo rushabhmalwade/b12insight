@@ -37,13 +37,13 @@ export const metadata: Metadata = {
     default: 'B12 Insight - Your Guide to Vitamin B12',
     template: '%s | B12 Insight', // Template for page titles
   },
-  description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and living better. Explore resources, check symptoms, and connect.', // Default description
+  description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support. Explore resources, check symptoms, and connect.', // Updated description
   alternates: {
      canonical: '/', // Default canonical URL
    },
   openGraph: {
     title: 'B12 Insight - Your Guide to Vitamin B12',
-    description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and living better.',
+    description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support.', // Updated OG description
     url: 'https://b12insight.com', // Default OG URL
     siteName: 'B12 Insight',
     // IMPORTANT: Replace with your actual preview image URL
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   twitter: {
       card: 'summary_large_image',
       title: 'B12 Insight - Your Guide to Vitamin B12',
-      description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and living better.',
+      description: 'Your comprehensive guide to understanding Vitamin B12, its sources, deficiency symptoms, and finding community support.', // Updated Twitter description
       // site: '@yourtwitterhandle', // Add twitter handle if available
       // creator: '@creatorhandle', // Add creator handle if available
       // IMPORTANT: Replace with your actual preview image URL

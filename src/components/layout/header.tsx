@@ -51,7 +51,7 @@ const ThemeToggle = () => {
     }
 
     return (
-        <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+        <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="h-9 w-9">
             {theme === 'light' ? <Sun className="h-5 w-5 transition-all duration-300 transform hover:rotate-12" /> : <Moon className="h-5 w-5 transition-all duration-300 transform hover:rotate-[-12deg]" />}
         </Button>
     );
@@ -68,6 +68,7 @@ export function Header() {
     { href: '/sources-of-b12', label: 'Sources' },
     { href: '/b12-deficiency-symptoms', label: 'Symptoms' },
     { href: '/resources', label: 'Resources' },
+    { href: '/community', label: 'Community' }, // Added Community link
     { href: '/contact', label: 'Contact' },
     { href: '/legal', label: 'Legal' },
   ];
@@ -91,17 +92,20 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-medium">
           {navItems.map((item) => {
-              const isActive = pathname === item.href; // Check if active
+              // Check if the current path exactly matches or starts with the item's href (for parent routes)
+               const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'));
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "transition-colors px-2 py-1 rounded-md hover:bg-primary/10", // Base styles
-                    isActive // Condition
-                      ? "text-primary font-semibold bg-primary/10" // Active styles
-                      : "text-foreground/70 hover:text-primary" // Inactive styles
+                    "transition-colors px-2 py-1 rounded-md hover:bg-primary/10 relative", // Base styles + relative for pseudo-element
+                    "after:content-[''] after:absolute after:left-1/2 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 after:-translate-x-1/2", // Underline pseudo-element
+                    isActive
+                      ? "text-primary font-semibold after:w-4/5" // Active styles: text, bold, show underline
+                      : "text-foreground/70 hover:text-primary hover:after:w-2/5" // Inactive styles: muted text, show partial underline on hover
                   )}
+                  aria-current={isActive ? 'page' : undefined} // Add aria-current for accessibility
                 >
                   {item.label}
                 </Link>
@@ -137,7 +141,7 @@ export function Header() {
               </Link>
               <div className="flex flex-col gap-3 pl-6">
                 {navItems.map((item) => {
-                  const isActive = pathname === item.href; // Check if active
+                   const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'));
                   return (
                      <Link
                       key={item.href}
@@ -148,6 +152,7 @@ export function Header() {
                           ? "text-primary font-semibold bg-primary/10" // Active styles
                           : "text-foreground/80 hover:text-primary hover:bg-primary/5" // Inactive styles
                       )}
+                       aria-current={isActive ? 'page' : undefined} // Add aria-current for accessibility
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.label}
