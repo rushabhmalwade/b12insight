@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'; // Import usePathname
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -10,7 +11,7 @@ import { cn } from '@/lib/utils'; // Import cn
 
 // Consistent SVG path data
 const svgPathData1 = "M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z";
-const svgPathData2 = "M3.8 20.2c-2.04-2.03-.02-7.36 4.5-11.9 4.54-4.52 9.87-6.54 11.9-4.5 2.04 2.03.02 7.36-4.5 11.9-4.54 4.52-9.87 6.54-11.9 4.5Z";
+const svgPathData2 = "M3.8 20.2c-2.04-2.03-.02-7.36 4.5-11.9 4.54-4.52 9.87-6.54 11.9-4.5 2.04 2.03.02 7.36-4.5 11.9-4.54 4.52-9.87 6.54 11.9 4.5Z";
 
 
 // Placeholder for theme toggle functionality - Improved for hydration safety
@@ -59,6 +60,7 @@ const ThemeToggle = () => {
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname(); // Get current pathname
 
   const navItems = [
     { href: '/', label: 'Home' },
@@ -88,15 +90,23 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-medium">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="transition-colors text-foreground/70 hover:text-primary px-2 py-1 rounded-md hover:bg-primary/10" // Added subtle hover bg
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "transition-colors px-2 py-1 rounded-md hover:bg-primary/10", // Base styles
+                    isActive
+                      ? "text-primary font-semibold bg-primary/10" // Active styles
+                      : "text-foreground/70 hover:text-primary" // Inactive styles
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+          })}
         </nav>
 
         {/* Right side actions */}
@@ -126,16 +136,24 @@ export function Header() {
                 <span className="font-bold text-xl text-primary font-serif tracking-tight">B12 Insight</span>
               </Link>
               <div className="flex flex-col gap-3 pl-6">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-base py-2 font-medium text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-l-md" // Larger text, hover effect
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {navItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                     <Link
+                      key={item.href}
+                      href={item.href}
+                      className={cn(
+                        "text-base py-2 font-medium rounded-l-md transition-colors", // Base styles
+                        isActive
+                          ? "text-primary font-semibold bg-primary/10" // Active styles
+                          : "text-foreground/80 hover:text-primary hover:bg-primary/5" // Inactive styles
+                      )}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
               </div>
             </SheetContent>
           </Sheet>
