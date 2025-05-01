@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'; // Import usePathname
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Sun, Moon } from 'lucide-react';
+import { Menu, Sun, Moon, User } from 'lucide-react'; // Added User icon
 import { cn } from '@/lib/utils'; // Import cn
 
 // Consistent SVG path data
@@ -68,10 +68,13 @@ export function Header() {
     { href: '/sources-of-b12', label: 'Sources' },
     { href: '/b12-deficiency-symptoms', label: 'Symptoms' },
     { href: '/resources', label: 'Resources' },
-    { href: '/community', label: 'Community' }, // Added Community link
+    { href: '/community', label: 'Community' },
     { href: '/contact', label: 'Contact' },
-    { href: '/legal', label: 'Legal' },
+    // { href: '/legal', label: 'Legal' }, // Consider moving Legal to footer
   ];
+
+  // Example: Replace with actual auth state later
+  const isLoggedIn = false;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/85 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
@@ -90,10 +93,9 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-3 lg:gap-5 text-sm font-medium flex-grow justify-center">
           {navItems.map((item) => {
-              // Check if the current path exactly matches or starts with the item's href (for parent routes)
-               const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'));
+               const isActive = (pathname === item.href && item.href === '/') || (item.href !== '/' && pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.href}
@@ -114,8 +116,25 @@ export function Header() {
         </nav>
 
         {/* Right side actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-auto"> {/* Use ml-auto to push right */}
           <ThemeToggle />
+
+          {/* Authentication Links */}
+          {isLoggedIn ? (
+             <Button variant="ghost" size="icon" asChild>
+                 <Link href="/profile" aria-label="User Profile"><User className="h-5 w-5"/></Link>
+             </Button>
+             // Add Logout button later
+          ) : (
+             <>
+                 <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex h-9">
+                   <Link href="/login">Login</Link>
+                 </Button>
+                 <Button size="sm" asChild className="hidden md:inline-flex h-9">
+                     <Link href="/signup">Sign Up</Link>
+                 </Button>
+             </>
+          )}
 
           {/* Mobile Menu Trigger */}
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -141,7 +160,7 @@ export function Header() {
               </Link>
               <div className="flex flex-col gap-3 pl-6">
                 {navItems.map((item) => {
-                   const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'));
+                   const isActive = (pathname === item.href && item.href === '/') || (item.href !== '/' && pathname.startsWith(item.href));
                   return (
                      <Link
                       key={item.href}
@@ -159,6 +178,19 @@ export function Header() {
                     </Link>
                   );
                 })}
+                 {/* Auth links in mobile menu */}
+                  {!isLoggedIn && (
+                     <>
+                         <Link href="/login" className="text-base py-2 font-medium rounded-l-md text-foreground/80 hover:text-primary hover:bg-primary/5" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+                         <Link href="/signup" className="text-base py-2 font-medium rounded-l-md text-foreground/80 hover:text-primary hover:bg-primary/5" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+                     </>
+                  )}
+                 {isLoggedIn && (
+                     <Link href="/profile" className="text-base py-2 font-medium rounded-l-md text-foreground/80 hover:text-primary hover:bg-primary/5" onClick={() => setIsMobileMenuOpen(false)}>Profile</Link>
+                     // Add Logout later
+                  )}
+                  {/* Add Legal link to mobile menu */}
+                  <Link href="/legal" className="text-base py-2 font-medium rounded-l-md text-foreground/80 hover:text-primary hover:bg-primary/5 mt-4" onClick={() => setIsMobileMenuOpen(false)}>Legal</Link>
               </div>
             </SheetContent>
           </Sheet>
